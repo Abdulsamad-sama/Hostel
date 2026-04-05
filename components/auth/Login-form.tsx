@@ -1,11 +1,16 @@
 "use client";
 
-import * as z from "zod";
-
 import { CardWrapper } from "@/components/auth/Card-wrapper";
+import { Button } from "@/components/ui/button";
+import { FormError } from "@/components/Form-error";
+import { FormSuccess } from "@/components/Form-success";
+
+import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schema";
+import { Input } from "@/components/ui/input";
+import { InputGroup } from "@/components/ui/input-group";
 
 import {
   Field,
@@ -13,14 +18,6 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group";
-import { Button } from "../ui/button";
 
 export default function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -92,6 +89,8 @@ export default function LoginForm() {
           </FieldGroup>
         </Field>
 
+        <FormError message="" />
+        <FormSuccess message="" />
         <Button type="submit" className="w-full">
           Login
         </Button>
