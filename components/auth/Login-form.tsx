@@ -4,14 +4,6 @@ import { CardWrapper } from "@/components/auth/Card-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-success";
-
-import * as z from "zod";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schema";
-import { Input } from "@/components/ui/input";
-import { InputGroup } from "@/components/ui/input-group";
-
 import {
   Field,
   FieldError,
@@ -19,7 +11,19 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 
+import * as z from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "@/schema";
+import { Input } from "@/components/ui/input";
+import { InputGroup } from "@/components/ui/input-group";
+import { login } from "@/action/login";
+import { useState, useTransition } from "react";
+
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -29,7 +33,11 @@ export default function LoginForm() {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log("Form values:", values);
+    startTransition(async () => {
+      const data = await login(values);
+      setError(data.error);
+      setSuccess(data.success);
+    });
   };
 
   return (
@@ -53,6 +61,7 @@ export default function LoginForm() {
                       placeholder="email@example.com"
                       {...field}
                       type="email"
+                      disabled={isPending}
                     />
                   </InputGroup>
 
@@ -74,10 +83,11 @@ export default function LoginForm() {
                   <FieldLabel>Password</FieldLabel>
                   <InputGroup>
                     <Input
+                      {...field}
                       type="password"
                       placeholder="••••••••"
                       autoComplete="off"
-                      {...field}
+                      disabled={isPending}
                     />
                   </InputGroup>
                   <FieldError>
@@ -89,9 +99,9 @@ export default function LoginForm() {
           </FieldGroup>
         </Field>
 
-        <FormError message="" />
-        <FormSuccess message="" />
-        <Button type="submit" className="w-full">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <Button type="submit" className="w-full" disabled={isPending}>
           Login
         </Button>
       </form>
