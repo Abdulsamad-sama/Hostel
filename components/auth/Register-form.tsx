@@ -8,12 +8,20 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
+import { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/schema";
 import { Button } from "@/components/ui/button";
+import { register } from "@/action/register";
+import { FormError } from "@/components/Form-error";
+import { FormSuccess } from "@/components/Form-success";
 
 export default function RegisterForm() {
+  const [ispending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -24,14 +32,22 @@ export default function RegisterForm() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    console.log(values);
+    setError("");
+    setSuccess("");
+
+    startTransition(async () => {
+      const data = await register(values);
+      setError(data.error);
+      setSuccess(data.success);
+    });
   };
 
   return (
     <CardWrapper
-      headerlabel="Let's go"
+      headerlabel="Create an account"
       backbuttonlabel="Already have an account?"
       backbuttonref="/auth/login"
+      showsocial
     >
       <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <Field>
@@ -42,7 +58,11 @@ export default function RegisterForm() {
               render={({ field }) => (
                 <>
                   <FieldLabel>Fullname</FieldLabel>
-                  <Input {...field} placeholder="Enter your fullname" type="" />
+                  <Input
+                    {...field}
+                    placeholder="John doe"
+                    disabled={ispending}
+                  />
                   <FieldError>
                     {form.formState.errors.fullname?.message}
                   </FieldError>
@@ -61,8 +81,9 @@ export default function RegisterForm() {
                   <FieldLabel>Email</FieldLabel>
                   <Input
                     {...field}
-                    placeholder="Enter your email"
+                    placeholder="email@example.com"
                     type="email"
+                    disabled={ispending}
                   />
                   <FieldError>
                     {form.formState.errors.email?.message}
@@ -85,6 +106,7 @@ export default function RegisterForm() {
                     placeholder="••••••••"
                     type="password"
                     autoComplete="off"
+                    disabled={ispending}
                   />
                   <FieldError>
                     {form.formState.errors.password?.message}
@@ -94,8 +116,9 @@ export default function RegisterForm() {
             ></Controller>
           </FieldGroup>
         </Field>
-
-        <Button className="w-full" type="submit">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <Button className="w-full" type="submit" disabled={ispending}>
           Register
         </Button>
       </form>
