@@ -7,11 +7,11 @@ export function Socials() {
   return (
     <div className="flex items-center w-full gap-x-2">
       <Button variant="outline" size="lg" className="w-1/2" onClick={() => {}}>
-        <FcGoogle h-5 w-5 />
+        <FcGoogle className=" h-5 w-5" />
       </Button>
 
       <Button variant="outline" size="lg" className="w-1/2" onClick={() => {}}>
-        <FaGithub h-5 w-5 />
+        <FaGithub className=" h-5 w-5" />
       </Button>
     </div>
   );
