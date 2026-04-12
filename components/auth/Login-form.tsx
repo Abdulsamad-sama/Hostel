@@ -39,7 +39,8 @@ export default function LoginForm() {
     startTransition(async () => {
       const data = await login(values);
       setError(data.error);
-      setSuccess(data.success);
+      // Success redirects, so no need to set success; uncomment this line if you want to show a success message instead of redirecting
+      // setSuccess(data.success);
     });
   };
 

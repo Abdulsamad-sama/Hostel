@@ -27,12 +27,13 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     if (!res) {
       return { error: "Invalid email or password" };
     }
-
-    return { success: "Login successful" };
+    //uncomment this line if you want to show a success message instead of redirecting
+    // return { success: "Login successful" };
   } catch (err: any) {
     console.error("Login error:", err);
     return {
       error: err?.body?.message || err?.message || "Something went wrong",
     };
   }
+  redirect("/");
 }
