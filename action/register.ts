@@ -1,36 +1,41 @@
-"use server"
+"use server";
 
-import { RegisterSchema } from "@/schema"
-import * as z from "zod"
-import bcrypt from "bcrypt"
-import db from "@/lib/db"
-import { get } from "http"
-import { getUserByEmail } from "@/data/user"
+import { RegisterSchema } from "@/schema";
+import * as z from "zod";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export async function register  (values: z.infer<typeof RegisterSchema>){
+export async function register(values: z.infer<typeof RegisterSchema>) {
+  const validatedFields = RegisterSchema.safeParse(values);
 
-    const validatedFields = RegisterSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return { error: "Invalid fields" };
+  }
 
-    if (!validatedFields.success){
-        return {error:"Invalid fields"}
+  const { fullname, email, password } = validatedFields.data;
+
+  try {
+    const res = await auth.api.signUpEmail({
+      headers: await headers(),
+      body: {
+        name: fullname,
+        email,
+        password,
+      },
+    });
+
+    if (!res) {
+      return {
+        error: "Registration failed",
+      };
     }
-
-    const {fullname,email,password} = validatedFields.data
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    const existingUser = await getUserByEmail(email)
-    
-    if (existingUser){
-        return {error:"User already exists"}
-    }
-
-    await db.user.create({
-        data:{
-            name: fullname,
-            email,
-            password: hashedPassword
-        }
-    })
-
-    return{success:"Email Sent"}
+  } catch (err: any) {
+    console.error("Registration error:", err);
+    return {
+      error: err?.body?.message || err?.message || "Something went wrong",
+    };
+  }
+  // Redirect to home page after successful registration and login
+  redirect("/");
 }
