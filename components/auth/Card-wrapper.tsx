@@ -6,12 +6,14 @@ import {
   CardHeader,
   CardFooter,
 } from "@/components/ui/card";
-import { AuthHeader } from "@/components/auth/Header";
+
 import { Socials } from "@/components/auth/Socials";
 import { BackButton } from "@/components/auth/Back-button";
+import { AuthHeader } from "./auth-header";
 
 interface CardWrapperProps {
   children: React.ReactNode;
+  header: string;
   headerlabel: string;
   backbuttonlabel: string;
   backbuttonref: string;
@@ -20,15 +22,16 @@ interface CardWrapperProps {
 
 export function CardWrapper({
   children,
+  header,
   headerlabel,
   backbuttonlabel,
   backbuttonref,
   showsocial,
 }: CardWrapperProps) {
   return (
-    <Card className="w-100 shadow-md">
+    <Card className=" w-80 shadow-md">
       <CardHeader>
-        <AuthHeader label={headerlabel} />
+        <AuthHeader header={header} label={headerlabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
       {showsocial && (

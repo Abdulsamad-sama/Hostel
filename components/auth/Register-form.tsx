@@ -8,19 +8,21 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/schema";
 import { Button } from "@/components/ui/button";
-import { register } from "@/action/register";
+import { authClient } from "@/lib/auth-client";
 import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-success";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
-  const [ispending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -31,21 +33,35 @@ export default function RegisterForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
+    setIsLoading(true);
 
-    startTransition(async () => {
-      const data = await register(values);
-      setError(data.error);
-      // Success redirects, so no need to set success; uncomment this line if you want to show a success message instead of redirecting
-      // setSuccess(data.success);
-    });
+    try {
+      const result = await authClient.signUp.email({
+        name: values.fullname,
+        email: values.email,
+        password: values.password,
+      });
+
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        setSuccess("Registration successful!");
+        router.push("/");
+      }
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <CardWrapper
-      headerlabel="Create an account"
+      header="Create an account"
+      headerlabel="Create an account to get started"
       backbuttonlabel="Already have an account?"
       backbuttonref="/auth/login"
       showsocial
@@ -62,7 +78,7 @@ export default function RegisterForm() {
                   <Input
                     {...field}
                     placeholder="John doe"
-                    disabled={ispending}
+                    disabled={isLoading}
                   />
                   <FieldError>
                     {form.formState.errors.fullname?.message}
@@ -84,7 +100,7 @@ export default function RegisterForm() {
                     {...field}
                     placeholder="email@example.com"
                     type="email"
-                    disabled={ispending}
+                    disabled={isLoading}
                   />
                   <FieldError>
                     {form.formState.errors.email?.message}
@@ -107,7 +123,7 @@ export default function RegisterForm() {
                     placeholder="••••••••"
                     type="password"
                     autoComplete="off"
-                    disabled={ispending}
+                    disabled={isLoading}
                   />
                   <FieldError>
                     {form.formState.errors.password?.message}
@@ -119,8 +135,8 @@ export default function RegisterForm() {
         </Field>
         <FormError message={error} />
         <FormSuccess message={success} />
-        <Button className="w-full" type="submit" disabled={ispending}>
-          Register
+        <Button className="w-full" type="submit" disabled={isLoading}>
+          {isLoading ? "Creating account..." : "Register"}
         </Button>
       </form>
     </CardWrapper>

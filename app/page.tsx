@@ -1,15 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/auth/Login-button";
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
+  const { data: session } = authClient.useSession();
+
   return (
-    <div className="bg-blue-500 h-full">
-      <h1>hello world!</h1>
-      <LoginButton>
-        <Button variant="secondary" size="xs">
-          Sign in
-        </Button>
-      </LoginButton>
+    <div className=" min-h-screen flex justify-center  ">
+      <h1 className="text-lg p-4">hello {session?.user?.name || "Guest"}</h1>
     </div>
   );
 }

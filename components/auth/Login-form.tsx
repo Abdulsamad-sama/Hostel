@@ -16,13 +16,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schema";
 import { Input } from "@/components/ui/input";
 import { InputGroup } from "@/components/ui/input-group";
-import { login } from "@/action/login";
-import { useState, useTransition } from "react";
+import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -32,26 +34,39 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
+    setIsLoading(true);
 
-    startTransition(async () => {
-      const data = await login(values);
-      setError(data.error);
-      // Success redirects, so no need to set success; uncomment this line if you want to show a success message instead of redirecting
-      // setSuccess(data.success);
-    });
+    try {
+      const result = await authClient.signIn.email({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        setSuccess("Login successful!");
+        router.push("/");
+      }
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <CardWrapper
-      headerlabel="Welcome Back"
+      header="Welcome Back"
+      headerlabel="Please sign in to your account"
       backbuttonlabel="Don't have an account?"
       backbuttonref="/auth/register"
       showsocial
     >
-      <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <Field>
           <FieldGroup>
             <Controller
@@ -65,7 +80,7 @@ export default function LoginForm() {
                       placeholder="email@example.com"
                       {...field}
                       type="email"
-                      disabled={isPending}
+                      disabled={isLoading}
                     />
                   </InputGroup>
 
@@ -91,7 +106,7 @@ export default function LoginForm() {
                       type="password"
                       placeholder="••••••••"
                       autoComplete="off"
-                      disabled={isPending}
+                      disabled={isLoading}
                     />
                   </InputGroup>
                   <FieldError>
@@ -105,8 +120,8 @@ export default function LoginForm() {
 
         <FormError message={error} />
         <FormSuccess message={success} />
-        <Button type="submit" className="w-full" disabled={isPending}>
-          Login
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
         </Button>
       </form>
     </CardWrapper>
