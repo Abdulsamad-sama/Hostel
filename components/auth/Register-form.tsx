@@ -59,86 +59,88 @@ export default function RegisterForm() {
   };
 
   return (
-    <CardWrapper
-      header="Create an account"
-      headerlabel="Create an account to get started"
-      backbuttonlabel="Already have an account?"
-      backbuttonref="/auth/login"
-      showsocial
-    >
-      <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <Field>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="fullname"
-              render={({ field }) => (
-                <>
-                  <FieldLabel>Fullname</FieldLabel>
-                  <Input
-                    {...field}
-                    placeholder="John doe"
-                    disabled={isLoading}
-                  />
-                  <FieldError>
-                    {form.formState.errors.fullname?.message}
-                  </FieldError>
-                </>
-              )}
-            ></Controller>
-          </FieldGroup>
-        </Field>
-        <Field>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <>
-                  <FieldLabel>Email</FieldLabel>
-                  <Input
-                    {...field}
-                    placeholder="email@example.com"
-                    type="email"
-                    disabled={isLoading}
-                  />
-                  <FieldError>
-                    {form.formState.errors.email?.message}
-                  </FieldError>
-                </>
-              )}
-            ></Controller>
-          </FieldGroup>
-        </Field>
-        <Field>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <>
-                  <FieldLabel>Password</FieldLabel>
-                  <Input
-                    {...field}
-                    placeholder="••••••••"
-                    type="password"
-                    autoComplete="off"
-                    disabled={isLoading}
-                  />
-                  <FieldError>
-                    {form.formState.errors.password?.message}
-                  </FieldError>
-                </>
-              )}
-            ></Controller>
-          </FieldGroup>
-        </Field>
-        <FormError message={error} />
-        <FormSuccess message={success} />
-        <Button className="w-full" type="submit" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Register"}
-        </Button>
-      </form>
-    </CardWrapper>
+    <div className="py-20 ">
+      <CardWrapper
+        header="Create an account"
+        headerlabel="Create an account to get started"
+        backbuttonlabel="Already have an account?"
+        backbuttonref="/auth/login"
+        showsocial
+      >
+        <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <Field>
+            <FieldGroup className="gap-3">
+              <Controller
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <>
+                    <FieldLabel>Fullname</FieldLabel>
+                    <Input
+                      {...field}
+                      placeholder="John doe"
+                      disabled={isLoading}
+                    />
+                    <FieldError>
+                      {form.formState.errors.fullname?.message}
+                    </FieldError>
+                  </>
+                )}
+              ></Controller>
+            </FieldGroup>
+          </Field>
+          <Field>
+            <FieldGroup className="gap-3">
+              <Controller
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <>
+                    <FieldLabel>Email</FieldLabel>
+                    <Input
+                      {...field}
+                      placeholder="email@example.com"
+                      type="email"
+                      disabled={isLoading}
+                    />
+                    <FieldError>
+                      {form.formState.errors.email?.message}
+                    </FieldError>
+                  </>
+                )}
+              ></Controller>
+            </FieldGroup>
+          </Field>
+          <Field>
+            <FieldGroup className="gap-3">
+              <Controller
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <>
+                    <FieldLabel>Password</FieldLabel>
+                    <Input
+                      {...field}
+                      placeholder="••••••••"
+                      type="password"
+                      autoComplete="off"
+                      disabled={isLoading}
+                    />
+                    <FieldError>
+                      {form.formState.errors.password?.message}
+                    </FieldError>
+                  </>
+                )}
+              ></Controller>
+            </FieldGroup>
+          </Field>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button className="w-full" type="submit" disabled={isLoading}>
+            {isLoading ? "Creating account..." : "Register"}
+          </Button>
+        </form>
+      </CardWrapper>
+    </div>
   );
 }

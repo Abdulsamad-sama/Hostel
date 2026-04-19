@@ -59,71 +59,73 @@ export default function LoginForm() {
   };
 
   return (
-    <CardWrapper
-      header="Welcome Back"
-      headerlabel="Please sign in to your account"
-      backbuttonlabel="Don't have an account?"
-      backbuttonref="/auth/register"
-      showsocial
-    >
-      <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <Field>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <>
-                  <FieldLabel>Email</FieldLabel>
-                  <InputGroup>
-                    <Input
-                      placeholder="email@example.com"
-                      {...field}
-                      type="email"
-                      disabled={isLoading}
-                    />
-                  </InputGroup>
+    < div className="pt-15 ">
+      < CardWrapper
+        header="Welcome Back"
+        headerlabel="Please sign in to your account"
+        backbuttonlabel="Don't have an account?"
+        backbuttonref="/auth/register"
+        showsocial
+      >
+        <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <Field>
+            <FieldGroup>
+              <Controller
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <>
+                    <FieldLabel>Email</FieldLabel>
+                    <InputGroup>
+                      <Input
+                        placeholder="email@example.com"
+                        {...field}
+                        type="email"
+                        disabled={isLoading}
+                      />
+                    </InputGroup>
 
-                  <FieldError>
-                    {form.formState.errors.email?.message}
-                  </FieldError>
-                </>
-              )}
-            />
-          </FieldGroup>
-        </Field>
-        <Field>
-          <FieldGroup>
-            <Controller
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <>
-                  <FieldLabel>Password</FieldLabel>
-                  <InputGroup>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="••••••••"
-                      autoComplete="off"
-                      disabled={isLoading}
-                    />
-                  </InputGroup>
-                  <FieldError>
-                    {form.formState.errors.password?.message}
-                  </FieldError>
-                </>
-              )}
-            />
-          </FieldGroup>
-        </Field>
+                    <FieldError>
+                      {form.formState.errors.email?.message}
+                    </FieldError>
+                  </>
+                )}
+              />
+            </FieldGroup>
+          </Field>
+          <Field>
+            <FieldGroup>
+              <Controller
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <>
+                    <FieldLabel>Password</FieldLabel>
+                    <InputGroup>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="••••••••"
+                        autoComplete="off"
+                        disabled={isLoading}
+                      />
+                    </InputGroup>
+                    <FieldError>
+                      {form.formState.errors.password?.message}
+                    </FieldError>
+                  </>
+                )}
+              />
+            </FieldGroup>
+          </Field>
 
-        <FormError message={error} />
-        <FormSuccess message={success} />
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </Button>
-      </form>
-    </CardWrapper>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
+        </form>
+      </CardWrapper >
+    </div>
   );
 }

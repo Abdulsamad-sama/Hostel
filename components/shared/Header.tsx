@@ -3,6 +3,8 @@
 import { useState, } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 
 // Navigation Component
 interface HeaderProps {
@@ -19,6 +21,7 @@ export default function Header({
   ]
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="fixed top-0 w-full z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -42,12 +45,14 @@ export default function Header({
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="sm" className="px-2">
-              Tenant Login
+            <Button variant="secondary" size="sm" className="px-2" onClick={() => { router.push("/auth/login") }}>
+              Sign In
             </Button>
             <Button size="sm">
               Get Started
             </Button>
+
+
           </div>
 
           <button
@@ -75,12 +80,13 @@ export default function Header({
               </a>
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t border-border">
-              <Button variant="ghost" size="sm">
-                Tenant Login
+              <Button variant="secondary" size="sm" onClick={() => { router.push("/auth/login") }}>
+                Sign In
               </Button>
-              <Button size="sm">
+              <Button size="sm" >
                 Get Started
               </Button>
+
             </div>
           </div>
         </div>

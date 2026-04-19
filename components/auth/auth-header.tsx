@@ -13,7 +13,7 @@ interface HeaderProps {
 
 export function AuthHeader({ label, header }: HeaderProps) {
   return (
-    <div className="w-full flex flex-col justify-center items-center gap-y-4">
+    <div className="w-full flex flex-col justify-center items-center gap-y-2">
       <h1 className={cn("text-2xl font-semibold text-nowrap", font.className)}>
         {header}
       </h1>
