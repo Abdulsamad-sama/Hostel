@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion"
+import { useState } from "react";
 import {
     Card,
     CardContent,
@@ -13,33 +14,18 @@ import {
     Carousel,
     CarouselContent,
     CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Home, FileText, MessageSquare, Users2, CalendarCheck, } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import Header from "@/components/layout/Header";
 
 
-const HeaderSection: React.FC = () => {
-    return (
-        <header className="py-6 bg-primary text-white">
-            <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-2xl font-bold ">HostelHub {""}
-                    <span className="text-sm text-secondary">List Your Property</span>
-                </h1>
-                <nav>
-                    <Button asChild variant="outline">
-                        <Link href="/auth/login">Log in</Link>
-                    </Button>
-                </nav>
-            </div>
-        </header>
-    );
-};
+
 
 const HeroSection: React.FC = () => {
     return (
         <section id="hero-section" className="bg-muted ">
-            <div className="py-15 px-10 flex flex-col md:flex-row items-center justify-center gap-20">
+            <div className="py-32 px-6 flex flex-col md:flex-row items-center justify-center gap-20">
                 <div className="max-w-xl">
                     <h2 className="text-4xl font-bold mb-4">
                         List Your Hostel and Reach More Students
@@ -158,7 +144,7 @@ const TestimonialsSection: React.FC = () => {
     ];
 
     return (
-        <section className="py-24 px-6 bg-background">
+        <section className="  py-24 px-6 bg-muted">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -166,63 +152,143 @@ const TestimonialsSection: React.FC = () => {
                     </h2>
                 </div>
 
-                <Carousel className="w-full max-w-48 sm:max-w-xs">
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                        skipSnaps: false,
+                        containScroll: "keepSnaps",
+                        slidesToScroll: 1,
+                    }}
+                    className="w-full max-w-48 md:max-w-2xl m-auto">
+
                     <CarouselContent>
-                        {testimonials.from({ length: 3 }).map((testimonial, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                viewport={{ once: true }}
-                            >
-                                <CarouselItem>
-                                    <Card className="h-full">
-                                        <CardContent className="pt-6">
-                                            <p className="text-muted-foreground mb-6 italic">"{testimonial.content}"</p>
-                                            <div className="flex items-center gap-4">
-                                                <img
-                                                    src={testimonial.avatar}
-                                                    alt={testimonial.name}
-                                                    className="w-12 h-12 rounded-full"
-                                                />
-                                                <div>
-                                                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                                                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                                                </div>
+                        {testimonials.map((testimonial, index) => (
+
+                            <CarouselItem key={index}>
+                                <Card className="h-full rounded-lg shadow-md ">
+                                    <CardContent className="pt-6">
+                                        <p className="text-muted-foreground mb-6 italic">"{testimonial.content}"</p>
+                                        <div className="flex items-center gap-4">
+                                            <img
+                                                src={testimonial.avatar}
+                                                alt={testimonial.name}
+                                                className="w-12 h-12 rounded-full"
+                                            />
+                                            <div>
+                                                <p className="font-semibold text-foreground">{testimonial.name}</p>
+                                                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                                             </div>
-                                        </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            </motion.div>
-                        ))}
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                </Carousel>
-            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </CarouselItem>
+
+                        ))
+                        }
+                    </CarouselContent >
+
+
+                </Carousel >
+            </div >
         </section >
     );
 };
 
+// FAQ Section
+interface FAQ {
+    question: string;
+    answer: string;
+}
 const FAQSection: React.FC = () => {
+    const faqs: FAQ[] = [
+        {
+            question: "Is listing free?",
+            answer: "You can start listing for free. Premium features may be introduced later."
+        },
+        {
+            question: "How do students contact me?",
+            answer: "They can either book directly or request a consultation through the platform. You'll receive notifications for all interactions and can respond through the dashboard."
+        },
+        {
+            question: "Can I book a hostel online?",
+            answer: "Yes. Depending on the listing, you can either book directly or schedule a consultation/inspection with the hostel management. Look for the 'Book Now' or 'Schedule Visit' options on the hostels of your choice."
+        },
+        {
+            question: "Is my payment information secure?",
+            answer: "Absolutely. We use bank-level encryption and comply with all security standards to protect your financial information."
+        },
+        {
+            question: "Can I change my room?",
+            answer: "Yes, you can request a room change through the platform. The hostel management will review your request and respond accordingly."
+        },
+        {
+            question: "What payment methods are accepted?",
+            answer: "We accept credit/debit cards, bank transfers, and digital wallets. Multiple payment options are available for your convenience."
+        }
+    ];
+
     return (
-        <section id="faq-section" className="py-20">
+        <section id="faq" className="py-24 px-6">
+            <div className="max-w-3xl mx-auto">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                        Frequently Asked Questions
+                    </h2>
+                    <p className="text-lg text-muted-foreground">
+                        Find answers to common questions about our platform.
+                    </p>
+                </div>
+
+                <Accordion type="single" collapsible className="w-full">
+                    {faqs.map((faq, index) => (
+                        <AccordionItem key={index} value={`item-${index}`}>
+                            <AccordionTrigger className="text-left text-foreground font-medium">
+                                {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="text-muted-foreground">
+                                {faq.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
+            </div>
         </section>
     );
 };
+
 
 const IntakeSection: React.FC = () => {
     return (
         <section id="intake-section" className="py-20">
+
+            <Card className="max-w-3xl mx-auto text-center shadow-2xl bg-accent">
+                <CardHeader>
+                    <CardTitle className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                        Ready to list your property?
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground mb-8">
+                        Join HostelHub today and start connecting with students looking for the perfect place to stay.
+                    </p>
+                    <Button asChild size="lg">
+                        <Link href="/auth/login">Get Started for free</Link>
+                    </Button>
+                </CardContent>
+            </Card>
         </section>
     );
 };
 
+const links = [
+    {}
+]
+
 const Listproperty: React.FC = () => {
     return (
         <div className="min-h-screen bg-background text-foreground scroll-smooth">
-            <HeaderSection />
+            <Header logoText="Partner with us" />
             <HeroSection />
             <FeaturesSection />
             <TestimonialsSection />

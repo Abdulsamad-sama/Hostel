@@ -11,18 +11,17 @@ import Link from "next/link";
 interface HeaderProps {
   logoText?: string;
   navLinks?: Array<{ text: string; href: string }>;
+  showGetStarted?: Boolean
 }
 
 export default function Header({
-  logoText = "HostelHub",
-  navLinks = [
-    { text: "Features", href: "#features" },
-    { text: "FAQ", href: "#faq" },
-    { text: "Contact", href: "#contact" }
-  ]
+  logoText,
+  navLinks = [],
+  showGetStarted
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter();
+
+
 
   return (
     <header className="fixed top-0 w-full z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -30,7 +29,8 @@ export default function Header({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Home className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold text-foreground">{logoText}</span>
+            <p className="text-2xl font-bold text-foreground">HostelHub {""}</p>
+            <span className="text-sm font-extralight">{logoText}</span>
           </div>
 
           <div className="hidden md:flex items-center justify-center gap-8">
@@ -49,11 +49,12 @@ export default function Header({
             <Button asChild variant="secondary" size="sm" className="px-2">
               <Link href="/auth/login"> Sign In</Link>
             </Button>
-            <Button asChild size="sm">
-              <Link href="/list-property">
-                Get Started</Link>
-            </Button>
-
+            {showGetStarted && (
+              <Button asChild size="sm" >
+                <Link href="/list-property" className="">
+                  Get Started</Link>
+              </Button>
+            )}
 
           </div>
 
@@ -73,21 +74,25 @@ export default function Header({
           <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
             <div className="px-6 py-4 flex flex-col gap-4">
               {navLinks.map((link, index) => (
-                <a
+                <Link
                   key={index}
                   href={link.href}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.text}
-                </a>
+                </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="secondary" size="sm" onClick={() => { router.push("/auth/login") }}>
-                  Sign In
+                <Button variant="secondary" size="sm">
+                  <Link href="/auth/login">
+                    Sign In
+                  </Link>
                 </Button>
                 <Button size="sm" >
-                  Get Started
+                  <Link href="/list-property">
+                    Get Started
+                  </Link>
                 </Button>
 
               </div>

@@ -24,6 +24,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import SearchForm from '@/components/layout/Search-section';
+import Header from '@/components/layout/Header';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | false)[]) => {
@@ -468,6 +469,7 @@ const ContactSection: React.FC = () => {
 const HostelWebApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
+      <Header showGetStarted />
       <SearchForm />
       <HeroSection />
       <FeaturesSection />
