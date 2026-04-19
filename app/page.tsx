@@ -34,7 +34,7 @@ const cn = (...classes: (string | undefined | null | false)[]) => {
 // Hero Section
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 bg-gradient-to-br from-primary/10 via-background to-background">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 bg-linear-to-br from-primary/10 via-background to-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ const HeroSection: React.FC = () => {
 
 
         <div className="relative max-w-5xl mx-auto">
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
           <img
             src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200&h=600&fit=crop"
             alt="Hostel management dashboard preview"
@@ -268,7 +268,7 @@ const FAQSection: React.FC = () => {
   ];
 
   return (
-    <section id="faq" className="py-24 px-6 bg-muted/30">
+    <section id="faq" className="py-24 px-6 bg-muted/50">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
