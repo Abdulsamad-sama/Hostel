@@ -15,15 +15,17 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String     @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean    @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   sessions      Session[]
   accounts      Account[]
+  properties    Property[]
+  bookings      Booking[]
 
   @@unique([email])
   @@map("user")
@@ -75,4 +77,58 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Property {
+  id             String      @id @default(uuid())
+  title          String
+  description    String
+  location       String // e.g. "Yaba, Lagos"
+  price          Float
+  totalRooms     Int
+  availableRooms Int
+  bookingType    BookingType
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  bookings Booking[]
+  images   Image[]
+}
+
+model Booking {
+  id        String      @id @default(uuid())
+  type      BookingMode
+  status    String      @default("pending")
+  date      DateTime?
+  createdAt DateTime    @default(now())
+
+  userId     String
+  propertyId String
+
+  user     User     @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model Image {
+  id         String   @id @default(uuid())
+  url        String
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  HOST
+  GUEST
+}
+
+enum BookingType {
+  INSTANT_BOOK
+  INSPECTION_REQUIRED
+}
+
+enum BookingMode {
+  BOOK
+  INSPECTION
 }

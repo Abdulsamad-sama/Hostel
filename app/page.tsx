@@ -23,7 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import SearchForm from '@/components/shared/Search-section';
+import SearchForm from '@/components/layout/Search-section';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | false)[]) => {
