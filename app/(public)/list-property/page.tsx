@@ -281,9 +281,7 @@ const IntakeSection: React.FC = () => {
     );
 };
 
-const links = [
-    {}
-]
+
 
 const Listproperty: React.FC = () => {
     return (

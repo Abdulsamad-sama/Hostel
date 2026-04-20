@@ -20,28 +20,30 @@ export default function Header({
   showGetStarted
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  console.log(navLinks)
 
 
   return (
     <header className="fixed top-0 w-full z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Home className="h-6 w-6 text-primary" />
-            <p className="text-2xl font-bold text-foreground">HostelHub {""}</p>
-            <span className="text-sm font-extralight">{logoText}</span>
+          <div>
+            <Link href="/" className="flex items-center space-x-2">
+              <Home className="h-6 w-6 text-primary" />
+              <p className="text-2xl font-bold text-foreground">HostelHub {""}</p>
+              <span className="text-sm font-extralight">{logoText}</span>
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center justify-center gap-8">
             {navLinks.map((link, index) => (
-              <a
+              <Link
                 key={index}
                 href={link.href}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.text}
-              </a>
+              </Link>
             ))}
           </div>
 

@@ -80,39 +80,82 @@ model Verification {
 }
 
 model Property {
-  id             String      @id @default(uuid())
+  id             String         @id @default(uuid())
   title          String
   description    String
-  location       String // e.g. "Yaba, Lagos"
-  price          Float
+  // Location (structured)
+  address        String
+  city           String
+  state          String
+  country        String
+  latitude       Float?
+  longitude      Float?
+  // Pricing
+  price          Int
+  priceType      PriceType
+  // Capacity
   totalRooms     Int
   availableRooms Int
+  roomType       RoomType
   bookingType    BookingType
+  // Relations
+  ownerId        String
+  owner          User           @relation(fields: [ownerId], references: [id])
+  bookings       Booking[]
+  images         Image[]
+  // Lifecycle
+  status         PropertyStatus @default(DRAFT)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
 
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id])
+enum RoomType {
+  SINGLE
+  SHARED
+}
 
-  bookings Booking[]
-  images   Image[]
+enum PriceType {
+  PER_ROOM
+  PER_YEAR
+}
+
+enum PropertyStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
 
 model Booking {
-  id        String      @id @default(uuid())
-  type      BookingMode
-  status    String      @default("pending")
-  date      DateTime?
-  createdAt DateTime    @default(now())
+  id        String @id @default(uuid())
+  reference String @unique
 
-  userId     String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
 
-  user     User     @relation(fields: [userId], references: [id])
-  property Property @relation(fields: [propertyId], references: [id])
+  roomType RoomType
+  quantity Int
+
+  startDate DateTime
+  endDate   DateTime?
+
+  price       Int
+  totalAmount Int
+
+  status        BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+
+  expiresAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Image {
   id         String   @id @default(uuid())
-  url        String
+  url        String[]
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 }
@@ -131,4 +174,18 @@ enum BookingType {
 enum BookingMode {
   BOOK
   INSPECTION
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
 }

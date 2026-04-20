@@ -25,6 +25,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import SearchForm from '@/components/layout/Search-section';
 import Header from '@/components/layout/Header';
+import { text } from 'stream/consumers';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | false)[]) => {
@@ -465,11 +466,17 @@ const ContactSection: React.FC = () => {
 //   );
 // };
 
+const links = [
+  { text: "Features", href: "#features" },
+  { text: "FAQ", href: "#faq" },
+  { text: "Contact", href: "#contact" },
+]
+
 // Main Component
 const HostelWebApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
-      <Header showGetStarted />
+      <Header navLinks={links} showGetStarted />
       <SearchForm />
       <HeroSection />
       <FeaturesSection />
