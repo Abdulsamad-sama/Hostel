@@ -16,6 +16,7 @@ import PricingStep from "@/components/property/steps/Pricing-step";
 import CapacityStep from "@/components/property/steps/Capacity-step";
 import BookingStep from "@/components/property/steps/Booking-step";
 import MediaStep from "@/components/property/steps/Media-step";
+import { useRouter } from "next/navigation";
 
 interface StepConfig {
     component: React.ComponentType;
@@ -35,6 +36,7 @@ export default function PropertyWizard({ userId }: { userId: string }) {
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
     const methods = useForm({
         resolver: zodResolver(propertySchema),
@@ -76,7 +78,24 @@ export default function PropertyWizard({ userId }: { userId: string }) {
             setIsSubmitting(true);
             setError(null);
 
-            const result = await createProperty({ ...data, ownerId: userId });
+            const result = await createProperty({
+                hostelName: data.title,
+                description: data.description,
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                latitude: undefined,
+                longitude: undefined,
+                roomType: data.roomType,
+                price: data.price,
+                priceType: data.priceType,
+                totalRooms: data.totalRooms,
+                availableRooms: data.availableRooms,
+                bookingType: data.bookingType,
+                ownerId: userId,
+                images: data.images,
+            });
 
             if (!result.success) {
                 setError(result.error || "Failed to create property");
@@ -85,7 +104,7 @@ export default function PropertyWizard({ userId }: { userId: string }) {
 
             // Reset form and redirect or show success message
             methods.reset();
-            // Consider redirecting to property detail page or dashboard
+            router.push("/Dashboard");
         } catch (err) {
             setError(err instanceof Error ? err.message : "An error occurred");
         } finally {
