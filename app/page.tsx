@@ -16,7 +16,7 @@ import {
   MessageSquare,
   Mail,
   Phone,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,6 +26,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import SearchForm from '@/components/layout/Search-section';
 import Header from '@/components/layout/Header';
 import { text } from 'stream/consumers';
+import Link from 'next/link';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | false)[]) => {
@@ -63,7 +64,9 @@ const HeroSection: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <Button size="lg" className="w-full sm:w-auto">
-            Get Started Free
+            <Link href='/list-property'>
+              Get Started Free
+            </Link>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
           <Button size="lg" variant="outline" className="w-full sm:w-auto">

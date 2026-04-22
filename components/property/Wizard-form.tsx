@@ -32,7 +32,7 @@ const steps: StepConfig[] = [
     { component: MediaStep, fields: ["images"] },
 ];
 
-export default function PropertyWizard({ userId }: { userId: string }) {
+export default function PropertyWizardForm({ userId }: { userId: string }) {
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);

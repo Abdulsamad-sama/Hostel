@@ -18,13 +18,15 @@ import { Input } from "@/components/ui/input";
 import { InputGroup } from "@/components/ui/input-group";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -49,7 +51,7 @@ export default function LoginForm() {
         setError(result.error.message);
       } else {
         setSuccess("Login successful!");
-        router.push("/");
+        router.push(redirectUrl);
       }
     } catch (err: any) {
       setError(err?.message || "Something went wrong");

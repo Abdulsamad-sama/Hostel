@@ -53,7 +53,7 @@ export default function Header({
             </Button>
             {showGetStarted && (
               <Button asChild size="sm" >
-                <Link href="/list-property" className="">
+                <Link href="/property" className="">
                   Get Started</Link>
               </Button>
             )}
