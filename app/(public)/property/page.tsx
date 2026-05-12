@@ -15,7 +15,6 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel"
-import { FileText, MessageSquare, Users2, CalendarCheck, } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Header from "@/components/layout/Header";
 
@@ -24,90 +23,93 @@ import Header from "@/components/layout/Header";
 
 const HeroSection: React.FC = () => {
     return (
-        <section id="hero-section" className="bg-muted ">
-            <div className="py-32 px-6 flex flex-col md:flex-row items-center justify-center gap-20">
-                <div className="max-w-xl">
-                    <h2 className="text-4xl font-bold mb-4">
-                        List Your Hostel and Reach More Students
-                    </h2>
-                    <p className="text-lg mb-6">
-                        Join HostelHub and connect with thousands of students looking for the perfect place to stay.
-                    </p>
-                    <p>Get your property in front of verified student renters. Manage bookings, track interest, and grow occupancy—all from one dashboard.</p>
-                </div>
-                <Button asChild variant="default" size="lg">
-                    <Link href="/list-property">Get Started for free</Link>
+        <section id="hero-section" className="relative h-[600px] flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 bg-black/60 z-10" />
+            <div className="absolute inset-0">
+                <Image
+                    src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1600&h=900&fit=crop"
+                    alt="Hostel Room"
+                    fill
+                    className="object-cover"
+                    priority
+                />
+            </div>
+            <div className="relative z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
+                <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                    List your property on HostelHub
+                </h1>
+                <p className="text-xl md:text-2xl text-zinc-200 mb-10 max-w-2xl font-light">
+                    Join the premier student accommodation platform. Manage bookings, track interest, and maximize your occupancy with zero hassle.
+                </p>
+                <Button asChild size="lg" className="h-14 px-10 text-lg rounded-full font-semibold shadow-xl">
+                    <Link href="/property/create">Add Property</Link>
                 </Button>
             </div>
-
-        </section >
+        </section>
     );
 };
 
-//featureSection
-interface Feature {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-}
-
 const FeaturesSection: React.FC = () => {
-    const features: Feature[] = [
+    const features = [
         {
-            icon: <CalendarCheck className="h-8 w-8 text-primary" />,
-            title: "Booking Requests",
-            description: "Receive and manage booking requests from students. Approve or decline requests with ease and keep track of your bookings in one place."
+            title: "The Go-To Platform for Students",
+            description: "HostelHub is the first stop for students seeking quality accommodations. By listing with us, you instantly tap into a massive, highly-targeted audience of verified student renters looking for exactly what you offer.",
+            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
+            reversed: false
         },
         {
-            icon: <Users2 className="h-8 w-8 text-primary" />,
-            title: "Reach a wealth of students",
-            description: "Access a large pool of student renters actively searching for accommodations."
+            title: "Cost-Effective & Better Returns",
+            description: "Maximize your rental income with our streamlined processes. We minimize vacancy periods by connecting you directly with students, bypassing expensive intermediary fees and ensuring a better return on your investment.",
+            image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=600&fit=crop",
+            reversed: true
         },
         {
-            icon: <MessageSquare className="h-8 w-8 text-primary" />,
-            title: "Complaints and Maintenance",
-            description: "Easily manage tenant complaints and maintenance requests. Communicate directly with tenants and track the status of each issue until it's resolved."
-        },
-        {
-            icon: <FileText className="h-8 w-8 text-primary" />,
-            title: "Grow your business",
-            description: "Increase your visibility to thousands of students looking for accommodations."
-        },
+            title: "High Efficiency & Easy Management",
+            description: "Manage everything from a single, intuitive dashboard. Handle booking requests, track maintenance issues, communicate with tenants, and oversee your entire property portfolio with unprecedented ease.",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+            reversed: false
+        }
     ];
 
     return (
         <section id="features" className="py-24 px-6 bg-background">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-6xl mx-auto space-y-24">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Connect with students instantly
+                    <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+                        Why partner with HostelHub?
                     </h2>
-                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Join HostelHub and connect with thousands of students looking for the perfect place to stay. Get your property in front of verified student renters. Manage bookings, track interest, and grow occupancy—all from one dashboard.
+                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                        We provide the tools and audience you need to succeed in student housing.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {features.map((feature, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <Card className="h-full hover:shadow-lg transition-shadow">
-                                <CardHeader>
-                                    <div className="mb-4">{feature.icon}</div>
-                                    <CardTitle>{feature.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <CardDescription>{feature.description}</CardDescription>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </div>
+                {features.map((feature, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        className={`flex flex-col gap-12 items-center ${feature.reversed ? 'md:flex-row-reverse' : 'md:flex-row'}`}
+                    >
+                        <div className="flex-1 space-y-6">
+                            <h3 className="text-3xl font-bold text-foreground leading-tight">{feature.title}</h3>
+                            <p className="text-lg text-muted-foreground leading-relaxed">
+                                {feature.description}
+                            </p>
+                        </div>
+                        <div className="flex-1 w-full">
+                            <div className="relative aspect-4/3 rounded-2xl overflow-hidden shadow-2xl">
+                                <Image
+                                    src={feature.image}
+                                    alt={feature.title}
+                                    fill
+                                    className="object-cover hover:scale-105 transition-transform duration-700"
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
         </section>
     );
@@ -274,8 +276,8 @@ const IntakeSection: React.FC = () => {
                     <p className="text-lg text-muted-foreground mb-8">
                         Join HostelHub today and start connecting with students looking for the perfect place to stay.
                     </p>
-                    <Button asChild size="lg">
-                        <Link href="/list-property">Get Started for free</Link>
+                    <Button asChild size="lg" className="h-12 px-8 rounded-full font-semibold">
+                        <Link href="/property/create">Get Started for free</Link>
                     </Button>
                 </CardContent>
             </Card>

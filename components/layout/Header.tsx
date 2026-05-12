@@ -2,10 +2,17 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Home, Menu, X } from "lucide-react";
+import { Home, Menu, X, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 
 // Navigation Component
@@ -63,23 +70,48 @@ export default function Header({
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
-            {user ? (
-              <Button variant="secondary" size="sm" className="px-2" onClick={handleSignOut}>
-                Sign Out
-              </Button>
-            ) : (
-              <Button asChild variant="secondary" size="sm" className="px-2">
-                <Link href="/auth/login"> Sign In</Link>
-              </Button>
-            )}
-            {showGetStarted && (
-              <Button asChild size="sm" >
-                <Link href="/property" className="">
-                  Get Started</Link>
-              </Button>
-            )}
+          <div className=" md:flex items-center gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <UserCircle className="h-6 w-6 text-foreground" />
+                  <span className="sr-only">Toggle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
 
+                {user ? (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      Sign Out
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/login">Log In/Sign Up</Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/property">Add Property</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/partner">Become Partner</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {showGetStarted && (
+              <Button asChild size="sm">
+                <Link href="/property" className="">Get Started</Link>
+              </Button>
+            )}
           </div>
 
           <button
@@ -108,17 +140,32 @@ export default function Header({
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <Button variant="secondary" size="sm">
-                  <Link href="/auth/login">
-                    Sign In
-                  </Link>
+                {user ? (
+                  <>
+                    <Button asChild variant="ghost" className="justify-start">
+                      <Link href="/dashboard">Dashboard</Link>
+                    </Button>
+                    <Button variant="ghost" className="justify-start text-destructive" onClick={handleSignOut}>
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild variant="ghost" className="justify-start">
+                      <Link href="/auth/login">Log In</Link>
+                    </Button>
+                    <Button asChild variant="ghost" className="justify-start">
+                      <Link href="/auth/register">Sign Up</Link>
+                    </Button>
+                  </>
+                )}
+                <div className="my-2 border-t border-border"></div>
+                <Button asChild variant="secondary" className="justify-start">
+                  <Link href="/property">Add Property</Link>
                 </Button>
-                <Button size="sm" >
-                  <Link href="/list-property">
-                    Get Started
-                  </Link>
+                <Button asChild variant="secondary" className="justify-start">
+                  <Link href="/partner">Become Partner</Link>
                 </Button>
-
               </div>
             </div>
           </div>

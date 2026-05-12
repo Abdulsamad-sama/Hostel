@@ -36,10 +36,10 @@ export default function BasicStep() {
                 <FieldGroup>
                     <Controller
                         control={control}
-                        name="title"
+                        name="description"
                         render={({ field }) => (
                             <>
-                                <FieldLabel> Hostel name</FieldLabel>
+                                <FieldLabel>Description</FieldLabel>
                                 <InputGroup>
                                     <Textarea placeholder="Describe your hostel" {...field} />
                                 </InputGroup>

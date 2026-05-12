@@ -20,7 +20,7 @@ model User {
   email         String
   emailVerified Boolean    @default(false)
   image         String?
-  role          Role       @default(STUDENT)
+  role          Role       @default(GUEST)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   sessions      Session[]
@@ -116,7 +116,7 @@ enum RoomType {
 }
 
 enum PriceType {
-  PER_ROOM
+  PER_MONTH
   PER_YEAR
 }
 
@@ -162,7 +162,8 @@ model Image {
 }
 
 enum Role {
-  STUDENT
+  GUEST
+  OCCUPANT
   OWNER
   AGENT
   ADMIN

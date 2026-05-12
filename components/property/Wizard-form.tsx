@@ -116,7 +116,7 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     });
 
     return (
-        <div className="flex items-center justify-center w-full mx-auto px-5 h-screen overflow-hidden">
+        <div className="flex items-center justify-center w-full mx-auto px-5 py-5 overflow-hidden">
             <FormProvider {...methods}>
                 <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">
                     <CardContent className="p-6 space-y-6">
