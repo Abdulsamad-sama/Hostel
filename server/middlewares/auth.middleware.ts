@@ -66,7 +66,7 @@ export const requireRole = (...allowedRoles: UserRole[]) => {
  * Middleware: Check if the platform currently allows agent-related actions.
  */
 export const requireAgentsEnabled = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -76,9 +76,10 @@ export const requireAgentsEnabled = async (
     );
     const settings = await PlatformSettingsRepository.getSettings();
 
-    if (!settings.allowAgents) {
+    // Only enforce for AGENT role
+    if (req.user?.role === "AGENT" && !settings.allowAgents) {
       res.status(403).json({
-        error: "Agent registration and activities are currently disabled by the administrator.",
+        error: "Agent activities are currently disabled by the administrator.",
         code: "AGENTS_DISABLED",
       });
       return;

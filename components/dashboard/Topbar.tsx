@@ -42,7 +42,7 @@ export default function Topbar({ user }: { user: AuthUser }) {
         </Button>
 
         <div className="flex items-center gap-3 pl-4 border-l border-border">
-          <div className="flex flex-col items-end hidden sm:flex">
+          <div className="flex-col items-end hidden sm:flex">
             <span className="text-sm font-medium leading-none">{user.name}</span>
             <span className="text-xs text-muted-foreground mt-1 capitalize">
               {user.role.toLowerCase()}

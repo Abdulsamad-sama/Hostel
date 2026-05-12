@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { useSession, signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 
 // Navigation Component
@@ -18,8 +20,23 @@ export default function Header({
   navLinks = [],
   showGetStarted
 }: HeaderProps) {
+
+  const router = useRouter();
+  const { data: session } = useSession();
+  const user = session?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  console.log(navLinks)
+  console.log(user)
+
+  // Handle Sign Out
+  const handleSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/auth/login");
+        },
+      },
+    });
+  };
 
 
   return (
@@ -47,9 +64,15 @@ export default function Header({
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button asChild variant="secondary" size="sm" className="px-2">
-              <Link href="/auth/login"> Sign In</Link>
-            </Button>
+            {user ? (
+              <Button variant="secondary" size="sm" className="px-2" onClick={handleSignOut}>
+                Sign Out
+              </Button>
+            ) : (
+              <Button asChild variant="secondary" size="sm" className="px-2">
+                <Link href="/auth/login"> Sign In</Link>
+              </Button>
+            )}
             {showGetStarted && (
               <Button asChild size="sm" >
                 <Link href="/property" className="">
