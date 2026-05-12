@@ -1,0 +1,3 @@
+// server/validators — Zod input validation schemas
+// Validate at the controller or middleware level.
+// See: context/code-standards.md §7

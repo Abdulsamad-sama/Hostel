@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { propertySchema } from "@/schema/index";
 import { createProperty } from "@/action/create-property";
+import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,9 +19,11 @@ import BookingStep from "@/components/property/steps/Booking-step";
 import MediaStep from "@/components/property/steps/Media-step";
 import { useRouter } from "next/navigation";
 
+type PropertyFormValues = z.infer<typeof propertySchema>;
+
 interface StepConfig {
     component: React.ComponentType;
-    fields: string[];
+    fields: FieldPath<PropertyFormValues>[];
 }
 
 const steps: StepConfig[] = [
@@ -62,7 +65,7 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     const currentStepFields = steps[step].fields;
 
     const nextStep = async () => {
-        const valid = await methods.trigger(currentStepFields as any);
+        const valid = await methods.trigger(currentStepFields);
         if (!valid) return;
         setError(null);
         setStep((s) => Math.min(s + 1, steps.length - 1));
@@ -113,60 +116,62 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     });
 
     return (
-        <FormProvider {...methods}>
-            <Card className="max-w-2xl mx-auto mt-10">
-                <CardContent className="p-6 space-y-6">
-                    <div>
-                        <p className="text-sm text-muted-foreground">
-                            Step {step + 1} of {steps.length}
-                        </p>
-                        <div className="w-full bg-secondary rounded-full h-2 mt-2">
-                            <div
-                                className="bg-primary h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-                            />
+        <div className="flex items-center justify-center w-full mx-auto px-5 h-screen overflow-hidden">
+            <FormProvider {...methods}>
+                <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">
+                    <CardContent className="p-6 space-y-6">
+                        <div>
+                            <p className="text-sm text-muted-foreground">
+                                Step {step + 1} of {steps.length}
+                            </p>
+                            <div className="w-full bg-secondary rounded-full h-2 mt-2">
+                                <div
+                                    className="bg-primary h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    {error && (
-                        <div className="p-3 bg-destructive/10 border border-destructive rounded-md">
-                            <p className="text-sm text-destructive">{error}</p>
-                        </div>
-                    )}
-
-                    <StepComponent />
-
-                    <div className="flex justify-between gap-4">
-                        {step > 0 && (
-                            <Button
-                                variant="outline"
-                                onClick={prevStep}
-                                disabled={isSubmitting}
-                            >
-                                Back
-                            </Button>
+                        {error && (
+                            <div className="p-3 bg-destructive/10 border border-destructive rounded-md">
+                                <p className="text-sm text-destructive">{error}</p>
+                            </div>
                         )}
 
-                        {step < steps.length - 1 ? (
-                            <Button
-                                onClick={nextStep}
-                                className="ml-auto"
-                                disabled={isSubmitting}
-                            >
-                                Next
-                            </Button>
-                        ) : (
-                            <Button
-                                onClick={onSubmit}
-                                disabled={isSubmitting}
-                                className="ml-auto"
-                            >
-                                {isSubmitting ? "Creating..." : "Create Property"}
-                            </Button>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
-        </FormProvider>
-    );
+                        <StepComponent />
+
+                        <div className="flex justify-between gap-4">
+                            {step > 0 && (
+                                <Button
+                                    variant="outline"
+                                    onClick={prevStep}
+                                    disabled={isSubmitting}
+                                >
+                                    Back
+                                </Button>
+                            )}
+
+                            {step < steps.length - 1 ? (
+                                <Button
+                                    onClick={nextStep}
+                                    className="ml-auto"
+                                    disabled={isSubmitting}
+                                >
+                                    Next
+                                </Button>
+                            ) : (
+                                <Button
+                                    onClick={onSubmit}
+                                    disabled={isSubmitting}
+                                    className="ml-auto"
+                                >
+                                    {isSubmitting ? "Creating..." : "Create Property"}
+                                </Button>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </FormProvider>
+        </div>
+    )
 }

@@ -3,7 +3,6 @@
 import { useState, } from "react";
 import { Button } from "@/components/ui/button";
 import { Home, Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
@@ -11,7 +10,7 @@ import Link from "next/link";
 interface HeaderProps {
   logoText?: string;
   navLinks?: Array<{ text: string; href: string }>;
-  showGetStarted?: Boolean
+  showGetStarted?: boolean
 }
 
 export default function Header({

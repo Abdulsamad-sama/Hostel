@@ -1,0 +1,3 @@
+// server/controllers — HTTP request handlers
+// Each controller must be thin: extract input, call service, return response.
+// See: context/code-standards.md §4

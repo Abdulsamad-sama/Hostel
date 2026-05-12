@@ -20,6 +20,7 @@ model User {
   email         String
   emailVerified Boolean    @default(false)
   image         String?
+  role          Role       @default(STUDENT)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   sessions      Session[]
@@ -161,9 +162,10 @@ model Image {
 }
 
 enum Role {
+  STUDENT
+  OWNER
+  AGENT
   ADMIN
-  HOST
-  GUEST
 }
 
 enum BookingType {
@@ -188,4 +190,10 @@ enum PaymentStatus {
   PAID
   FAILED
   REFUNDED
+}
+
+model PlatformSettings {
+  id          String   @id @default("singleton")
+  allowAgents Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
 }

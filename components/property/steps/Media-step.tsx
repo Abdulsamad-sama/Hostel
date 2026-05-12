@@ -1,10 +1,10 @@
 import { useFormContext } from "react-hook-form";
-import { Field, FieldContent, FieldError, FieldLabel } from "@/components/ui/field";
+
 export default function MediaStep() {
     const { setValue } = useFormContext();
 
-    const handleFiles = (e: any) => {
-        const files = Array.from(e.target.files).map((f: any) => f.name);
+    const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []).map((f) => f.name);
         setValue("images", files);
     };
 

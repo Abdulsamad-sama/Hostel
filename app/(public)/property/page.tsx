@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion"
-import { useState } from "react";
+import Image from "next/image";
 import {
     Card,
     CardContent,
@@ -15,7 +15,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel"
-import { Home, FileText, MessageSquare, Users2, CalendarCheck, } from "lucide-react";
+import { FileText, MessageSquare, Users2, CalendarCheck, } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Header from "@/components/layout/Header";
 
@@ -168,11 +168,13 @@ const TestimonialsSection: React.FC = () => {
                             <CarouselItem key={index}>
                                 <Card className="h-full rounded-lg shadow-md ">
                                     <CardContent className="pt-6">
-                                        <p className="text-muted-foreground mb-6 italic">"{testimonial.content}"</p>
+                                        <p className="text-muted-foreground mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
                                         <div className="flex items-center gap-4">
-                                            <img
+                                            <Image
                                                 src={testimonial.avatar}
                                                 alt={testimonial.name}
+                                                width={48}
+                                                height={48}
                                                 className="w-12 h-12 rounded-full"
                                             />
                                             <div>
@@ -208,11 +210,11 @@ const FAQSection: React.FC = () => {
         },
         {
             question: "How do students contact me?",
-            answer: "They can either book directly or request a consultation through the platform. You'll receive notifications for all interactions and can respond through the dashboard."
+            answer: "They can either book directly or request a consultation through the platform. You&apos;ll receive notifications for all interactions and can respond through the dashboard."
         },
         {
             question: "Can I book a hostel online?",
-            answer: "Yes. Depending on the listing, you can either book directly or schedule a consultation/inspection with the hostel management. Look for the 'Book Now' or 'Schedule Visit' options on the hostels of your choice."
+            answer: "Yes. Depending on the listing, you can either book directly or schedule a consultation/inspection with the hostel management. Look for the &apos;Book Now&apos; or &apos;Schedule Visit&apos; options on the hostels of your choice."
         },
         {
             question: "Is my payment information secure?",

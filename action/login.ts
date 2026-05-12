@@ -29,10 +29,11 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     }
     //uncomment this line if you want to show a success message instead of redirecting
     // return { success: "Login successful" };
-  } catch (err: any) {
+  } catch (err) {
     console.error("Login error:", err);
+    const message = err instanceof Error ? err.message : "Something went wrong";
     return {
-      error: err?.body?.message || err?.message || "Something went wrong",
+      error: (err as { body?: { message?: string } })?.body?.message || message,
     };
   }
   redirect("/");

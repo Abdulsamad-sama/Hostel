@@ -53,8 +53,8 @@ export default function LoginForm() {
         setSuccess("Login successful!");
         router.push(redirectUrl);
       }
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setIsLoading(false);
     }

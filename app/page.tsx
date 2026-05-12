@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { AuroraBackground } from "@/components/ui/aurora-background";
+
 import {
   MapPin,
-  CalendarDays,
-  BedDouble,
   Users2,
   ArrowRight,
   Home,
@@ -16,7 +14,6 @@ import {
   MessageSquare,
   Mail,
   Phone,
-  ChevronDown,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,13 +22,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import SearchForm from '@/components/layout/Search-section';
 import Header from '@/components/layout/Header';
-import { text } from 'stream/consumers';
 import Link from 'next/link';
+import Image from 'next/image';
 
-// Utility function
-const cn = (...classes: (string | undefined | null | false)[]) => {
-  return classes.filter(Boolean).join(' ');
-};
 
 
 // Hero Section
@@ -77,9 +70,11 @@ const HeroSection: React.FC = () => {
 
         <div className="relative max-w-5xl mx-auto">
           <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent z-10 pointer-events-none" />
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200&h=600&fit=crop"
             alt="Hostel management dashboard preview"
+            height={600}
+            width={1200}
             className="w-full h-auto rounded-lg shadow-2xl border border-border"
           />
         </div>
@@ -221,11 +216,13 @@ const TestimonialsSection: React.FC = () => {
             >
               <Card className="h-full">
                 <CardContent className="pt-6">
-                  <p className="text-muted-foreground mb-6 italic">"{testimonial.content}"</p>
+                  <p className="text-muted-foreground mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image
                       src={testimonial.avatar}
                       alt={testimonial.name}
+                      width={48}
+                      height={48}
                       className="w-12 h-12 rounded-full"
                     />
                     <div>
@@ -323,7 +320,7 @@ const ContactSection: React.FC = () => {
             Get In Touch
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
           </p>
         </div>
 
@@ -332,7 +329,7 @@ const ContactSection: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Send us a message</CardTitle>
-                <CardDescription>Fill out the form and we'll get back to you shortly.</CardDescription>
+                <CardDescription>Fill out the form and we&apos;ll get back to you shortly.</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">

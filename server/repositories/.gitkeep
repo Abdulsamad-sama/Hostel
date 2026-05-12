@@ -1,0 +1,3 @@
+// server/repositories — Database access layer (Prisma only)
+// No business logic allowed. Return raw database results.
+// See: context/code-standards.md §6

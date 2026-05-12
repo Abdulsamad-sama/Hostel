@@ -51,8 +51,8 @@ export default function RegisterForm() {
         setSuccess("Registration successful!");
         router.push("/");
       }
-    } catch (err: any) {
-      setError(err?.message || "Something went wrong");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setIsLoading(false);
     }

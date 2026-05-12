@@ -1,4 +1,4 @@
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import {
     Field,
     FieldError,
@@ -11,7 +11,6 @@ import { InputGroup } from "@/components/ui/input-group";
 
 export default function BasicStep() {
     const { control } = useFormContext();
-    const form = useForm
 
     return (
         <div className="space-y-4">

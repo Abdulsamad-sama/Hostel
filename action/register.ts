@@ -30,10 +30,11 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
         error: "Registration failed",
       };
     }
-  } catch (err: any) {
+  } catch (err) {
     console.error("Registration error:", err);
+    const message = err instanceof Error ? err.message : "Something went wrong";
     return {
-      error: err?.body?.message || err?.message || "Something went wrong",
+      error: (err as { body?: { message?: string } })?.body?.message || message,
     };
   }
   // Redirect to home page after successful registration and login

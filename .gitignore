@@ -43,3 +43,10 @@ next-env.d.ts
 /lib/generated/prisma
 
 /app/generated/prisma
+
+
+# AGENTS
+
+/context
+
+# END AGENTS
