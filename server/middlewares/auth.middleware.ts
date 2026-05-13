@@ -27,7 +27,7 @@ export const requireAuth = async (
       id: session.user.id,
       name: session.user.name,
       email: session.user.email,
-      role: (session.user as unknown as AuthUser).role ?? "STUDENT",
+      role: (session.user as unknown as AuthUser).role ?? "GUEST",
       image: session.user.image,
     };
 

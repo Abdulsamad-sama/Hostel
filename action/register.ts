@@ -38,5 +38,5 @@ export async function register(values: z.infer<typeof RegisterSchema>) {
     };
   }
   // Redirect to home page after successful registration and login
-  redirect("/");
+  redirect("/dashboard");
 }

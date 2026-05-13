@@ -107,7 +107,7 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
 
             // Reset form and redirect or show success message
             methods.reset();
-            router.push("/Dashboard");
+            router.push("/dashboard");
         } catch (err) {
             setError(err instanceof Error ? err.message : "An error occurred");
         } finally {

@@ -5,7 +5,7 @@
 
 // ─── Roles ───
 
-export type UserRole = "STUDENT" | "OWNER" | "AGENT" | "ADMIN";
+export type UserRole = "GUEST" | "OCCUPANT" | "OWNER" | "AGENT" | "ADMIN";
 
 // ─── Authenticated User (attached to request after auth middleware) ───
 

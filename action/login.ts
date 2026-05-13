@@ -36,5 +36,5 @@ export async function login(values: z.infer<typeof LoginSchema>) {
       error: (err as { body?: { message?: string } })?.body?.message || message,
     };
   }
-  redirect("/");
+  redirect("/dashboard");
 }

@@ -33,7 +33,7 @@ const sidebarLinks: SidebarLink[] = [
     title: "My Bookings",
     href: "/dashboard/bookings",
     icon: Calendar,
-    roles: ["STUDENT"],
+    roles: ["OCCUPANT"],
   },
   {
     title: "My Properties",
@@ -51,7 +51,7 @@ const sidebarLinks: SidebarLink[] = [
     title: "Search Hostels",
     href: "/property",
     icon: Home,
-    roles: ["STUDENT"],
+    roles: ["OCCUPANT", "GUEST"],
   },
   {
     title: "User Management",

@@ -20,7 +20,7 @@ export async function getServerSession(): Promise<{ user: AuthUser } | null> {
         id: session.user.id,
         name: session.user.name,
         email: session.user.email,
-        role: ((session.user as Record<string, unknown>).role as UserRole) ?? "STUDENT",
+        role: ((session.user as Record<string, unknown>).role as UserRole) ?? "GUEST",
         image: session.user.image,
       },
     };

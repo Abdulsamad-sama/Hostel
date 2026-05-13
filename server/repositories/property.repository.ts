@@ -12,7 +12,7 @@ export type CreatePropertyInput = {
   longitude?: number;
   roomType: "SINGLE" | "SHARED";
   price: number;
-  priceType: "PER_ROOM" | "PER_YEAR";
+  priceType: "PER_MONTH" | "PER_YEAR";
   totalRooms: number;
   availableRooms: number;
   bookingType: "INSTANT_BOOK" | "INSPECTION_REQUIRED";

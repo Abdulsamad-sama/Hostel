@@ -31,7 +31,7 @@ export const propertySchema = z.object({
   country: z.string().min(2),
 
   price: z.number().min(1, { message: "Price must be greater than 0" }),
-  priceType: z.enum(["PER_ROOM", "PER_YEAR"]),
+  priceType: z.enum(["PER_MONTH", "PER_YEAR"]),
 
   totalRooms: z.number().min(1),
   availableRooms: z.number().min(0),
