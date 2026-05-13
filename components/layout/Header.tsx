@@ -35,7 +35,7 @@ export default function Header({
   console.log(user)
 
   // Handle Sign Out
-  const handleSignOut = async () => {
+  const handleSignOut = async (): Promise<void> => {
     await signOut({
       fetchOptions: {
         onSuccess: () => {

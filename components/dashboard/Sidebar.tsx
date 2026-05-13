@@ -77,7 +77,7 @@ const sidebarLinks: SidebarLink[] = [
   },
 ];
 
-export default function Sidebar({ userRole }: { userRole: UserRole }) {
+export default function Sidebar({ userRole }: { userRole: UserRole }): JSX.Element {
   const pathname = usePathname();
 
   const filteredLinks = sidebarLinks.filter(

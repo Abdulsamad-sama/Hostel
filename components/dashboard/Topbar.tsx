@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth-client";
 import { AuthUser } from "@/types";
 
-export default function Topbar({ user }: { user: AuthUser }) {
+export default function Topbar({ user }: { user: AuthUser }): JSX.Element {
   const router = useRouter();
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (): Promise<void> => {
     await signOut({
       fetchOptions: {
         onSuccess: () => {

@@ -14,6 +14,8 @@ import {
     Carousel,
     CarouselContent,
     CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Header from "@/components/layout/Header";
@@ -161,6 +163,7 @@ const TestimonialsSection: React.FC = () => {
                         skipSnaps: false,
                         containScroll: "keepSnaps",
                         slidesToScroll: 1,
+
                     }}
                     className="w-full max-w-48 md:max-w-2xl m-auto">
 
@@ -191,7 +194,8 @@ const TestimonialsSection: React.FC = () => {
                         ))
                         }
                     </CarouselContent >
-
+                    <CarouselPrevious />
+                    <CarouselNext />
 
                 </Carousel >
             </div >

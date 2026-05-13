@@ -2,7 +2,7 @@
 
 import { Home } from "lucide-react";
 // Footer
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <footer className="bg-muted/70 border-t border-border py-12 px-6">
       <div className="max-w-7xl mx-auto">
