@@ -14,43 +14,36 @@ export default function BasicStep() {
 
     return (
         <div className="space-y-4">
-            <Field>
-                <FieldGroup>
-                    <Controller
-                        control={control}
-                        name="title"
-                        render={({ field }) => (
-                            <>
-                                <FieldLabel> Hostel name</FieldLabel>
-                                <InputGroup>
-                                    <Input placeholder="Excellency Hostel" {...field} />
-                                </InputGroup>
-                                <FieldError />
-                            </>
-                        )}
-                    />
-                </FieldGroup>
-            </Field>
+            <FieldGroup>
+                <Controller
+                    control={control}
+                    name="title"
+                    render={({ field }) => (
+                        <Field>
+                            <FieldLabel> Hostel name</FieldLabel>
+                            <InputGroup>
+                                <Input placeholder="Excellency Hostel" {...field} />
+                            </InputGroup>
+                            <FieldError />
+                        </Field>
 
-            <Field>
-                <FieldGroup>
-                    <Controller
-                        control={control}
-                        name="description"
-                        render={({ field }) => (
-                            <>
-                                <FieldLabel>Description</FieldLabel>
-                                <InputGroup>
-                                    <Textarea placeholder="Describe your hostel" {...field} />
-                                </InputGroup>
-                                <FieldError />
-                            </>
-                        )}
-                    />
-                </FieldGroup>
-            </Field>
+                    )}
+                />
 
-
+                <Controller
+                    control={control}
+                    name="description"
+                    render={({ field }) => (
+                        <Field>
+                            <FieldLabel>Description</FieldLabel>
+                            <InputGroup>
+                                <Textarea placeholder="Describe your hostel" {...field} />
+                            </InputGroup>
+                            <FieldError />
+                        </Field>
+                    )}
+                />
+            </FieldGroup>
         </div >
     );
 }

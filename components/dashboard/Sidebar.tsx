@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  Home, 
-  Calendar, 
-  User, 
-  Settings, 
-  Building2, 
-  Users, 
+import {
+  LayoutDashboard,
+  Home,
+  Calendar,
+  User,
+  Settings,
+  Building2,
+  Users,
   ShieldCheck,
   PlusSquare
 } from "lucide-react";
@@ -77,7 +77,7 @@ const sidebarLinks: SidebarLink[] = [
   },
 ];
 
-export default function Sidebar({ userRole }: { userRole: UserRole }): JSX.Element {
+export default function Sidebar({ userRole }: { userRole: UserRole }) {
   const pathname = usePathname();
 
   const filteredLinks = sidebarLinks.filter(

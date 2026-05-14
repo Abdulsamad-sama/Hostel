@@ -3,10 +3,10 @@ import { updateSession } from "@/utils/supabase/middleware";
 
 export default async function middleware(request: NextRequest): Promise<NextResponse> {
   const { pathname } = request.nextUrl;
-  
+
   // 1. Update Supabase session (handles cookies)
   const response = await updateSession(request);
-  
+
   // 2. Add current path to request headers so Server Components can read it
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-current-path", pathname);

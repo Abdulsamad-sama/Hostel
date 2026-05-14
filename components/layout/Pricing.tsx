@@ -15,7 +15,7 @@ interface PricingPlan {
     highlight?: boolean;
 }
 
-export default function PricingSection(): JSX.Element {
+export default function PricingSection() {
     const plans: PricingPlan[] = [
         {
             title: "Basic",

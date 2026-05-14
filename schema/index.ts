@@ -22,7 +22,7 @@ export const RegisterSchema = z.object({
 });
 
 export const propertySchema = z.object({
-  title: z.string().min(3, { message: "Title is required" }),
+  title: z.string().min(3, { message: "Hostel name is required" }),
   description: z.string().min(10, { message: "Description too short" }),
 
   address: z.string().min(5),

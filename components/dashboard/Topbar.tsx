@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth-client";
 import { AuthUser } from "@/types";
 
-export default function Topbar({ user }: { user: AuthUser }): JSX.Element {
+export default function Topbar({ user }: { user: AuthUser }) {
   const router = useRouter();
 
   const handleSignOut = async (): Promise<void> => {

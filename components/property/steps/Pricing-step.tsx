@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field";
 
 export default function PricingStep() {
     const { register, formState: { errors } } = useFormContext();
@@ -9,7 +10,7 @@ export default function PricingStep() {
             <div className="space-y-1">
                 <Input
                     type="number"
-                    placeholder="Price"
+                    placeholder="E.g. 500000"
                     {...register("price", { valueAsNumber: true })}
                 />
                 {errors.price && <p className="text-sm text-destructive">{String(errors.price.message)}</p>}

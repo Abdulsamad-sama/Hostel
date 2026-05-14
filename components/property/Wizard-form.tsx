@@ -50,7 +50,7 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
             address: "",
             city: "",
             state: "",
-            country: "Nigeria",
+            country: "",
             price: 0,
             priceType: "PER_YEAR",
             totalRooms: 1,
@@ -118,59 +118,61 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     return (
         <div className="flex items-center justify-center w-full mx-auto px-5 py-5 overflow-hidden">
             <FormProvider {...methods}>
-                <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">
-                    <CardContent className="p-6 space-y-6">
-                        <div>
-                            <p className="text-sm text-muted-foreground">
-                                Step {step + 1} of {steps.length}
-                            </p>
-                            <div className="w-full bg-secondary rounded-full h-2 mt-2">
-                                <div
-                                    className="bg-primary h-2 rounded-full transition-all duration-300"
-                                    style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-                                />
+                <form onSubmit={onSubmit}>
+                    <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">
+                        <CardContent className="p-6 space-y-6">
+                            <div>
+                                <p className="text-sm text-muted-foreground">
+                                    Step {step + 1} of {steps.length}
+                                </p>
+                                <div className="w-full bg-secondary rounded-full h-2 mt-2">
+                                    <div
+                                        className="bg-primary h-2 rounded-full transition-all duration-300"
+                                        style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        {error && (
-                            <div className="p-3 bg-destructive/10 border border-destructive rounded-md">
-                                <p className="text-sm text-destructive">{error}</p>
-                            </div>
-                        )}
-
-                        <StepComponent />
-
-                        <div className="flex justify-between gap-4">
-                            {step > 0 && (
-                                <Button
-                                    variant="outline"
-                                    onClick={prevStep}
-                                    disabled={isSubmitting}
-                                >
-                                    Back
-                                </Button>
+                            {error && (
+                                <div className="p-3 bg-destructive/10 border border-destructive rounded-md">
+                                    <p className="text-sm text-destructive">{error}</p>
+                                </div>
                             )}
 
-                            {step < steps.length - 1 ? (
-                                <Button
-                                    onClick={nextStep}
-                                    className="ml-auto"
-                                    disabled={isSubmitting}
-                                >
-                                    Next
-                                </Button>
-                            ) : (
-                                <Button
-                                    onClick={onSubmit}
-                                    disabled={isSubmitting}
-                                    className="ml-auto"
-                                >
-                                    {isSubmitting ? "Creating..." : "Create Property"}
-                                </Button>
-                            )}
-                        </div>
-                    </CardContent>
-                </Card>
+                            <StepComponent />
+
+                            <div className="flex justify-between gap-4">
+                                {step > 0 && (
+                                    <Button
+                                        variant="outline"
+                                        onClick={prevStep}
+                                        disabled={isSubmitting}
+                                    >
+                                        Back
+                                    </Button>
+                                )}
+
+                                {step < steps.length - 1 ? (
+                                    <Button
+                                        onClick={nextStep}
+                                        className="ml-auto"
+                                        disabled={isSubmitting}
+                                    >
+                                        Next
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        onClick={onSubmit}
+                                        disabled={isSubmitting}
+                                        className="ml-auto"
+                                    >
+                                        {isSubmitting ? "Creating..." : "Create Property"}
+                                    </Button>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </form>
             </FormProvider>
         </div>
     )

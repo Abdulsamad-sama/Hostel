@@ -9,7 +9,7 @@ import {
 
 import { Socials } from "@/components/auth/Socials";
 import { BackButton } from "@/components/auth/Back-button";
-import { AuthHeader } from "./auth-header";
+import { AuthHeader } from "@/components/auth/Auth-header";
 
 interface CardWrapperProps {
   children: React.ReactNode;
