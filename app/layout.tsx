@@ -3,7 +3,6 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer";
-import Topbar from "@/components/dashboard/Topbar";
 
 const inter = Inter({
   variable: "--font-inter",

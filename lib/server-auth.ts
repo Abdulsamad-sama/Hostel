@@ -31,12 +31,16 @@ export async function getServerSession(): Promise<{ user: AuthUser } | null> {
 
 /**
  * Require authentication in a Server Component.
- * Redirects to /auth/login if not authenticated.
+ * Redirects to /auth/login if not authenticated, preserving the original
+ * destination URL so the user lands there after signing in.
  */
 export async function requireServerAuth(): Promise<AuthUser> {
   const session = await getServerSession();
   if (!session) {
-    redirect("/auth/login");
+    // Read the path from the proxy header to build the redirect URL
+    const headerList = await headers();
+    const currentPath = headerList.get("x-current-path") || "/dashboard";
+    redirect(`/auth/login?redirect=${encodeURIComponent(currentPath)}`);
   }
   return session.user;
 }

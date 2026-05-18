@@ -26,6 +26,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  // Redirect to the page the user was trying to access, or dashboard by default
   const redirectUrl = searchParams.get("redirect") || "/dashboard";
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -36,7 +37,7 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>): Promise<void> => {
     setError("");
     setSuccess("");
     setIsLoading(true);
@@ -61,8 +62,8 @@ export default function LoginForm() {
   };
 
   return (
-    < div className="pt-15 ">
-      < CardWrapper
+    <div className="pt-15 ">
+      <CardWrapper
         header="Welcome Back"
         headerlabel="Please sign in to your account"
         backbuttonlabel="Don't have an account?"
@@ -124,7 +125,7 @@ export default function LoginForm() {
             {isLoading ? "Logging in..." : "Login"}
           </Button>
         </form>
-      </CardWrapper >
+      </CardWrapper>
     </div>
   );
 }

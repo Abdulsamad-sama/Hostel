@@ -2,9 +2,10 @@ import { requireServerAuth } from "@/lib/server-auth";
 import PropertyWizardForm from "@/components/property/Wizard-form";
 
 export default async function CreatePropertyPage() {
-    const user = await requireServerAuth();
+    // Require authentication (role will be updated upon successful creation)
+    await requireServerAuth();
 
     return (
-        <PropertyWizardForm userId={user.id} />
+        <PropertyWizardForm />
     );
 }

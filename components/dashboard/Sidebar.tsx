@@ -11,7 +11,8 @@ import {
   Building2,
   Users,
   ShieldCheck,
-  PlusSquare
+  PlusSquare,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserRole } from "@/types";
@@ -43,7 +44,7 @@ const sidebarLinks: SidebarLink[] = [
   },
   {
     title: "Add Property",
-    href: "/property",
+    href: "/property/create",
     icon: PlusSquare,
     roles: ["OWNER", "AGENT"],
   },
@@ -77,18 +78,36 @@ const sidebarLinks: SidebarLink[] = [
   },
 ];
 
-export default function Sidebar({ userRole }: { userRole: UserRole }) {
+type SidebarProps = {
+  userRole: UserRole;
+  isOpen?: boolean;
+  onClose?: () => void;
+};
+
+export default function Sidebar({ userRole, isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   const filteredLinks = sidebarLinks.filter(
     (link) => !link.roles || link.roles.includes(userRole)
   );
 
-  return (
-    <aside className="w-64 border-r border-border bg-card hidden md:flex flex-col h-screen sticky top-0">
-      <div className="p-6 border-b border-border flex items-center gap-2">
-        <Home className="h-6 w-6 text-primary" />
-        <span className="font-bold text-xl">HostelHub</span>
+  const sidebarContent = (
+    <>
+      <div className="p-6 border-b border-border flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Home className="h-6 w-6 text-primary" />
+          <span className="font-bold text-xl">HostelHub</span>
+        </div>
+        {/* Close button visible only on mobile */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
@@ -98,6 +117,7 @@ export default function Sidebar({ userRole }: { userRole: UserRole }) {
             <Link
               key={link.href}
               href={link.href}
+              onClick={onClose}
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                 isActive
@@ -120,6 +140,31 @@ export default function Sidebar({ userRole }: { userRole: UserRole }) {
           <p className="text-sm font-medium text-foreground">{userRole}</p>
         </div>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="w-64 border-r border-border bg-card hidden md:flex flex-col h-screen sticky top-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile sidebar overlay */}
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-in fade-in duration-200"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+          {/* Slide-in panel */}
+          <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border flex flex-col md:hidden animate-in slide-in-from-left duration-300">
+            {sidebarContent}
+          </aside>
+        </>
+      )}
+    </>
   );
 }

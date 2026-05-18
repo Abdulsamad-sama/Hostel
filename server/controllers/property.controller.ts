@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { PropertyRepository } from "../repositories/property.repository";
 import { propertySchema } from "@/schema";
 
 export class PropertyController {
@@ -23,8 +22,9 @@ export class PropertyController {
         return res.status(401).json({ error: "Unauthorized" });
       }
 
-      // 3. Create property via repository
-      const property = await PropertyRepository.create({
+      // 3. Create property via service (handles role promotion)
+      const { PropertyService } = await import("../services/property.service");
+      const property = await PropertyService.createProperty(req.user, {
         hostelName: validation.data.title,
         description: validation.data.description,
         address: validation.data.address,
@@ -37,7 +37,6 @@ export class PropertyController {
         availableRooms: validation.data.availableRooms,
         roomType: validation.data.roomType,
         bookingType: validation.data.bookingType,
-        ownerId: req.user.id,
         images: validation.data.images,
       });
 
@@ -53,11 +52,13 @@ export class PropertyController {
 
   /**
    * GET /properties/:id
+   * Returns a single property. Public users only see approved properties.
    */
   static async getProperty(req: Request, res: Response) {
     try {
       const id = req.params.id as string;
-      const property = await PropertyRepository.findById(id);
+      const { PropertyService } = await import("../services/property.service");
+      const property = await PropertyService.getPropertyById(id);
 
       if (!property) {
         return res.status(404).json({ error: "Property not found" });
@@ -67,6 +68,20 @@ export class PropertyController {
     } catch (error) {
       console.error("[PropertyController] Error fetching property:", error);
       return res.status(500).json({ error: "Failed to fetch property" });
+    }
+  }
+
+  /**
+   * GET /properties
+   */
+  static async getProperties(req: Request, res: Response) {
+    try {
+      const { PropertyService } = await import("../services/property.service");
+      const properties = await PropertyService.getProperties();
+      return res.json(properties);
+    } catch (error) {
+      console.error("[PropertyController] Error fetching properties:", error);
+      return res.status(500).json({ error: "Failed to fetch properties" });
     }
   }
 }

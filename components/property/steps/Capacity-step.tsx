@@ -1,45 +1,93 @@
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
+import {
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { InfoIcon } from "lucide-react"
+import { InputGroup } from "@/components/ui/input-group";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { InfoIcon } from "lucide-react";
 
 export default function CapacityStep() {
-  const { register, formState: { errors } } = useFormContext();
+    const { control } = useFormContext();
 
-  return (
-    <div className="space-y-4">
-      <p className="py-6">
-        What is the capacity of this property?
-      </p>
-      <div className="space-y-1">
-        <Label>Total number of Rooms are in your apartment</Label>
-        <Input
-          type="number"
-          placeholder="Total Rooms"
-          {...register("totalRooms", { valueAsNumber: true })}
-        />
-        {errors.totalRooms && <p className="text-sm text-destructive">{String(errors.totalRooms.message)}</p>}
-      </div>
+    return (
+        <div className="space-y-4">
+            <h2 className="text-start py-4 text-xl font-semibold">Capacity</h2>
+            <p className="text-start text-sm text-muted-foreground">What is the capacity of this property?</p>
 
-      <div className="space-y-1">
-        <Label>Number of current available room</Label>
-        <Input
-          type="number"
-          placeholder="Available Rooms"
-          {...register("availableRooms", { valueAsNumber: true })}
-        />
-        {errors.availableRooms && <p className="text-sm text-destructive">{String(errors.availableRooms.message)}</p>}
-      </div>
+            <FieldGroup>
+                <Controller
+                    control={control}
+                    name="totalRooms"
+                    render={({ field, fieldState }) => (
+                        <Field>
+                            <FieldLabel>Total number of rooms in your apartment</FieldLabel>
+                            <InputGroup>
+                                <Input
+                                    type="number"
+                                    placeholder="Total Rooms"
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                />
+                            </InputGroup>
+                            <FieldError>{fieldState.error?.message}</FieldError>
+                        </Field>
+                    )}
+                />
 
-      <div className="space-y-1">
-        <Label>What type of room is available in your apartment</Label>
-        <select {...register("roomType")} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-          <option value="SHARED">Shared</option>
-          <option value="SINGLE">Single</option>
-        </select>
-        {errors.roomType && <p className="text-sm text-destructive">{String(errors.roomType.message)}</p>}
-      </div>
-      <p className="flex justify-center items-center text-xs text-muted-foreground mt-6"> <InfoIcon />Only Choose single if you don't allow multiple students in a room</p>
-    </div>
-  );
+                <Controller
+                    control={control}
+                    name="availableRooms"
+                    render={({ field, fieldState }) => (
+                        <Field>
+                            <FieldLabel>Number of currently available rooms</FieldLabel>
+                            <InputGroup>
+                                <Input
+                                    type="number"
+                                    placeholder="Available Rooms"
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                />
+                            </InputGroup>
+                            <FieldError>{fieldState.error?.message}</FieldError>
+                        </Field>
+                    )}
+                />
+
+                <Controller
+                    control={control}
+                    name="roomType"
+                    render={({ field, fieldState }) => (
+                        <Field>
+                            <FieldLabel>Room type available in your apartment</FieldLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select room type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="SHARED">Shared</SelectItem>
+                                    <SelectItem value="SINGLE">Single</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FieldError>{fieldState.error?.message}</FieldError>
+                        </Field>
+                    )}
+                />
+            </FieldGroup>
+
+            <p className="flex justify-center items-center gap-1 text-xs text-muted-foreground mt-6">
+                <InfoIcon className="h-3.5 w-3.5" />
+                Only choose single if you don&apos;t allow multiple students in a room
+            </p>
+        </div>
+    );
 }

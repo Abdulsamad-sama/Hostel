@@ -11,7 +11,7 @@ export default function PlatformSettingsToggle() {
 
   // Fetch initial settings
   useEffect(() => {
-    fetch("/api/settings")
+    fetch("/api/settings", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setAllowAgents(data.allowAgents))
       .catch((err) => {
@@ -32,6 +32,7 @@ export default function PlatformSettingsToggle() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ allowAgents: !allowAgents }),
       });
 

@@ -1,6 +1,5 @@
 import { requireServerAuth } from "@/lib/server-auth";
-import Sidebar from "@/components/dashboard/Sidebar";
-import Topbar from "@/components/dashboard/Topbar";
+import DashboardShell from "@/components/dashboard/Dashboard-shell";
 
 /**
  * Protected route group layout.
@@ -15,15 +14,5 @@ export default async function ProtectedLayout({
   // This will redirect to /auth/login if not authenticated
   const user = await requireServerAuth();
 
-  return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar userRole={user.role} />
-      <div className="flex-1 flex flex-col">
-        <Topbar user={user} />
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+  return <DashboardShell user={user}>{children}</DashboardShell>;
 }

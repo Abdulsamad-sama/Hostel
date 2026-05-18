@@ -30,13 +30,15 @@ import Image from 'next/image';
 // Hero Section
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-32 bg-linear-to-br from-primary/10 via-background to-background">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-16 bg-linear-to-br from-primary/10 via-background to-background">
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="text-center max-w-4xl mx-auto"
       >
+        <SearchForm />
 
         <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
           <span className="text-xs text-muted-foreground">
@@ -62,8 +64,8 @@ const HeroSection: React.FC = () => {
             </Link>
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-          <Button size="lg" variant="outline" className="w-full sm:w-auto">
-            View Demo
+          <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+            <Link href="/explore">Explore Hostels</Link>
           </Button>
         </div>
 
@@ -224,6 +226,7 @@ const TestimonialsSection: React.FC = () => {
                       width={48}
                       height={48}
                       className="w-12 h-12 rounded-full"
+                      unoptimized
                     />
                     <div>
                       <p className="font-semibold text-foreground">{testimonial.name}</p>
@@ -413,59 +416,6 @@ const ContactSection: React.FC = () => {
   );
 };
 
-// // Footer
-// const Footer: React.FC = () => {
-// return (
-//     <footer className="bg-muted/50 border-t border-border py-12 px-6">
-//       <div className="max-w-7xl mx-auto">
-//         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-//           <div>
-//             <div className="flex items-center space-x-2 mb-4">
-//               <Home className="h-6 w-6 text-primary" />
-//               <span className="text-xl font-bold text-foreground">HostelHub</span>
-//             </div>
-//             <p className="text-sm text-muted-foreground">
-//               Complete hostel management solution for modern living.
-//             </p>
-//           </div>
-
-//           <div>
-//             <h3 className="font-semibold text-foreground mb-4">Product</h3>
-//             <ul className="space-y-2">
-//               <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground">Features</a></li>
-//               <li><a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground">Pricing</a></li>
-//               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Demo</a></li>
-//             </ul>
-//           </div>
-
-//           <div>
-//             <h3 className="font-semibold text-foreground mb-4">Support</h3>
-//             <ul className="space-y-2">
-//               <li><a href="#faq" className="text-sm text-muted-foreground hover:text-foreground">FAQ</a></li>
-//               <li><a href="#contact" className="text-sm text-muted-foreground hover:text-foreground">Contact</a></li>
-//               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Documentation</a></li>
-//             </ul>
-//           </div>
-
-//           <div>
-//             <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-//             <ul className="space-y-2">
-//               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Privacy Policy</a></li>
-//               <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Terms of Service</a></li>
-//             </ul>
-//           </div>
-//         </div>
-
-//         <div className="border-t border-border pt-8 text-center">
-//           <p className="text-sm text-muted-foreground">
-//             © 2024 HostelHub. All rights reserved.
-//           </p>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
 const links = [
   { text: "Features", href: "#features" },
   { text: "FAQ", href: "#faq" },
@@ -477,7 +427,7 @@ const HostelWebApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
       <Header navLinks={links} showGetStarted />
-      <SearchForm />
+      {/* <SearchForm /> */}
       <HeroSection />
       <FeaturesSection />
       {/* <PricingSection /> */}

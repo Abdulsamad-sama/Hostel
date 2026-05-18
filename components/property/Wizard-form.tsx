@@ -5,7 +5,6 @@ import { useForm, FormProvider, FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { propertySchema } from "@/schema/index";
-import { createProperty } from "@/action/create-property";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ const steps: StepConfig[] = [
     { component: MediaStep, fields: ["images"] },
 ];
 
-export default function PropertyWizardForm({ userId }: { userId: string }) {
+export default function PropertyWizardForm() {
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -64,14 +63,14 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     const StepComponent = steps[step].component;
     const currentStepFields = steps[step].fields;
 
-    const nextStep = async () => {
+    const nextStep = async (): Promise<void> => {
         const valid = await methods.trigger(currentStepFields);
         if (!valid) return;
         setError(null);
         setStep((s) => Math.min(s + 1, steps.length - 1));
     };
 
-    const prevStep = () => {
+    const prevStep = (): void => {
         setError(null);
         setStep((s) => Math.max(s - 1, 0));
     };
@@ -81,31 +80,35 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
             setIsSubmitting(true);
             setError(null);
 
-            const result = await createProperty({
-                hostelName: data.title,
-                description: data.description,
-                address: data.address,
-                city: data.city,
-                state: data.state,
-                country: data.country,
-                latitude: undefined,
-                longitude: undefined,
-                roomType: data.roomType,
-                price: data.price,
-                priceType: data.priceType,
-                totalRooms: data.totalRooms,
-                availableRooms: data.availableRooms,
-                bookingType: data.bookingType,
-                ownerId: userId,
-                images: data.images,
+            const res = await fetch("/api/properties", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                    title: data.title,
+                    description: data.description,
+                    address: data.address,
+                    city: data.city,
+                    state: data.state,
+                    country: data.country,
+                    price: data.price,
+                    priceType: data.priceType,
+                    totalRooms: data.totalRooms,
+                    availableRooms: data.availableRooms,
+                    roomType: data.roomType,
+                    bookingType: data.bookingType,
+                    images: data.images,
+                }),
             });
 
-            if (!result.success) {
+            const result = await res.json();
+
+            if (!res.ok) {
                 setError(result.error || "Failed to create property");
                 return;
             }
 
-            // Reset form and redirect or show success message
+            // Reset form and redirect to dashboard
             methods.reset();
             router.push("/dashboard");
         } catch (err) {
@@ -116,7 +119,7 @@ export default function PropertyWizardForm({ userId }: { userId: string }) {
     });
 
     return (
-        <div className="flex items-center justify-center w-full mx-auto px-5 py-5 overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center w-full mx-auto px-5 py-5 overflow-hidden">
             <FormProvider {...methods}>
                 <form onSubmit={onSubmit}>
                     <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">

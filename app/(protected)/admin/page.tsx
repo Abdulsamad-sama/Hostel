@@ -1,5 +1,6 @@
 import { requireServerRole } from "@/lib/server-auth";
 import PlatformSettingsToggle from "@/components/admin/Platform-settings";
+import AdminPropertiesList from "@/components/admin/Properties-list";
 
 /**
  * Admin dashboard — only accessible to users with ADMIN role.
@@ -21,9 +22,8 @@ export default async function AdminPage() {
         <PlatformSettingsToggle />
 
         <div className="rounded-lg border border-border bg-card p-6">
-          <p className="text-sm text-muted-foreground">
-            More admin features (approve listings, manage users) will be built in Unit 23.
-          </p>
+          <h2 className="text-xl font-bold mb-4">Property Approvals</h2>
+          <AdminPropertiesList />
         </div>
       </div>
     </div>

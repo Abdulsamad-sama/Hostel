@@ -9,7 +9,7 @@ export default async function DashboardPage() {
   const user = await requireServerAuth();
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
       <p className="text-muted-foreground mb-6">
         Welcome, <span className="font-semibold text-foreground">{user.name}</span>.

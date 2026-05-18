@@ -1,5 +1,4 @@
 import db from "@/lib/db";
-import { Property, Image } from "@/lib/generated/prisma/client";
 
 export type CreatePropertyInput = {
   hostelName: string;
@@ -75,6 +74,31 @@ export class PropertyRepository {
     return db.property.findUnique({
       where: { id },
       include: { images: true, owner: true },
+    });
+  }
+
+  /**
+   * Find all properties with optional approval filter.
+   */
+  static async findMany(options?: { isApproved?: boolean }) {
+    const where = options?.isApproved !== undefined 
+      ? { isApproved: options.isApproved } 
+      : {};
+      
+    return db.property.findMany({
+      where,
+      include: { images: true, owner: { select: { id: true, name: true, image: true } } },
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
+  /**
+   * Set a property's approval status.
+   */
+  static async setApprovalStatus(id: string, isApproved: boolean) {
+    return db.property.update({
+      where: { id },
+      data: { isApproved },
     });
   }
 }

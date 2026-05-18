@@ -16,13 +16,16 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { FormError } from "@/components/Form-error";
 import { FormSuccess } from "@/components/Form-success";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RegisterForm() {
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Redirect to the page the user was trying to access, or dashboard by default
+  const redirectUrl = searchParams.get("redirect") || "/dashboard";
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -33,7 +36,7 @@ export default function RegisterForm() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>): Promise<void> => {
     setError("");
     setSuccess("");
     setIsLoading(true);
@@ -49,7 +52,7 @@ export default function RegisterForm() {
         setError(result.error.message);
       } else {
         setSuccess("Registration successful!");
-        router.push("/");
+        router.push(redirectUrl);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
