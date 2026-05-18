@@ -77,13 +77,35 @@ export class PropertyRepository {
     });
   }
 
-  /**
-   * Find all properties with optional approval filter.
-   */
-  static async findMany(options?: { isApproved?: boolean }) {
-    const where = options?.isApproved !== undefined 
-      ? { isApproved: options.isApproved } 
-      : {};
+  static async findMany(options?: { 
+    isApproved?: boolean;
+    search?: string;
+    location?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  }) {
+    const where: any = {};
+    
+    if (options?.isApproved !== undefined) {
+      where.isApproved = options.isApproved;
+    }
+    
+    if (options?.search) {
+      where.OR = [
+        { title: { contains: options.search, mode: 'insensitive' } },
+        { description: { contains: options.search, mode: 'insensitive' } }
+      ];
+    }
+    
+    if (options?.location) {
+      where.city = { contains: options.location, mode: 'insensitive' };
+    }
+    
+    if (options?.minPrice !== undefined || options?.maxPrice !== undefined) {
+      where.price = {};
+      if (options?.minPrice !== undefined) where.price.gte = options.minPrice;
+      if (options?.maxPrice !== undefined) where.price.lte = options.maxPrice;
+    }
       
     return db.property.findMany({
       where,

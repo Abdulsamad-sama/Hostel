@@ -26,16 +26,25 @@ export class PropertyService {
     return property;
   }
 
-  /**
-   * Get properties based on user role and options.
-   * - Public users only see approved properties.
-   * - Admins can see all properties (approved and unapproved).
-   */
-  static async getProperties(options: { isAdmin?: boolean } = {}) {
-    if (options.isAdmin) {
-      return PropertyRepository.findMany(); // Return all
+  static async getProperties(options: { 
+    isAdmin?: boolean;
+    search?: string;
+    location?: string;
+    minPrice?: number;
+    maxPrice?: number;
+  } = {}) {
+    const queryOptions: any = {};
+    
+    if (!options.isAdmin) {
+      queryOptions.isApproved = true;
     }
-    return PropertyRepository.findMany({ isApproved: true }); // Return only approved
+    
+    if (options.search) queryOptions.search = options.search;
+    if (options.location) queryOptions.location = options.location;
+    if (options.minPrice !== undefined) queryOptions.minPrice = options.minPrice;
+    if (options.maxPrice !== undefined) queryOptions.maxPrice = options.maxPrice;
+
+    return PropertyRepository.findMany(queryOptions); 
   }
 
   /**

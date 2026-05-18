@@ -71,13 +71,30 @@ export class PropertyController {
     }
   }
 
-  /**
-   * GET /properties
-   */
   static async getProperties(req: Request, res: Response) {
     try {
+      const { search, location, minPrice, maxPrice } = req.query;
+      
+      const options: any = {};
+      
+      if (typeof search === 'string' && search.trim() !== '') {
+        options.search = search.trim();
+      }
+      
+      if (typeof location === 'string' && location.trim() !== '') {
+        options.location = location.trim();
+      }
+      
+      if (typeof minPrice === 'string' && !isNaN(Number(minPrice))) {
+        options.minPrice = Number(minPrice);
+      }
+      
+      if (typeof maxPrice === 'string' && !isNaN(Number(maxPrice))) {
+        options.maxPrice = Number(maxPrice);
+      }
+
       const { PropertyService } = await import("../services/property.service");
-      const properties = await PropertyService.getProperties();
+      const properties = await PropertyService.getProperties(options);
       return res.json(properties);
     } catch (error) {
       console.error("[PropertyController] Error fetching properties:", error);

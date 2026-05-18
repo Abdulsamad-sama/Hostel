@@ -92,7 +92,7 @@ function ImageGallery({ images }: { images: string[] }) {
   return (
     <div className="space-y-3">
       {/* Main Image */}
-      <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-muted group">
+      <div className="relative w-full aspect-16/10 rounded-xl overflow-hidden bg-muted group">
         <Image
           src={images[activeIndex]}
           alt={`Property image ${activeIndex + 1}`}
@@ -140,11 +140,10 @@ function ImageGallery({ images }: { images: string[] }) {
               key={url}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className={`relative flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${
-                index === activeIndex
-                  ? "border-primary ring-2 ring-primary/30"
-                  : "border-transparent hover:border-border opacity-70 hover:opacity-100"
-              }`}
+              className={`relative shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${index === activeIndex
+                ? "border-primary ring-2 ring-primary/30"
+                : "border-transparent hover:border-border opacity-70 hover:opacity-100"
+                }`}
               aria-label={`View image ${index + 1}`}
             >
               <Image
@@ -170,7 +169,7 @@ function DetailSkeleton() {
       <div className="h-6 w-32 bg-muted rounded mb-6" />
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-4">
-          <div className="aspect-[16/10] bg-muted rounded-xl" />
+          <div className="aspect-16/10 bg-muted rounded-xl" />
           <div className="flex gap-2">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="w-20 h-14 bg-muted rounded-lg" />
@@ -294,14 +293,14 @@ export default function PropertyDetailClient({
                 {property.title}
               </h1>
               {property.isApproved && (
-                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 flex-shrink-0 mt-1">
+                <Badge className="bg-green-500/10 text-green-600 border-green-500/20 shrink-0 mt-1">
                   <ShieldCheck className="h-3 w-3 mr-1" />
                   Verified
                 </Badge>
               )}
             </div>
             <div className="flex items-center gap-1.5 text-muted-foreground">
-              <MapPin className="h-4 w-4 flex-shrink-0" />
+              <MapPin className="h-4 w-4 shrink-0" />
               <span className="text-sm">
                 {property.address}, {property.city}, {property.state}
               </span>
@@ -374,7 +373,7 @@ export default function PropertyDetailClient({
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-3">
-                <div className="relative h-10 w-10 rounded-full bg-muted overflow-hidden flex-shrink-0">
+                <div className="relative h-10 w-10 rounded-full bg-muted overflow-hidden shrink-0">
                   {property.owner.image ? (
                     <Image
                       src={property.owner.image}
@@ -457,7 +456,7 @@ function DetailCard({
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="pt-6">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-primary-50 flex-shrink-0">
+          <div className="p-2 rounded-lg bg-primary-50 shrink-0">
             {icon}
           </div>
           <div>
