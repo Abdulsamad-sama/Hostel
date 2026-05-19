@@ -27,6 +27,7 @@ model User {
   accounts      Account[]
   properties    Property[]
   bookings      Booking[]
+  complaints    Complaint[]
 
   @@unique([email])
   @@map("user")
@@ -104,6 +105,7 @@ model Property {
   owner          User           @relation(fields: [ownerId], references: [id])
   bookings       Booking[]
   images         Image[]
+  complaints     Complaint[]
   // Lifecycle
   status         PropertyStatus @default(DRAFT)
   isApproved     Boolean        @default(false)
@@ -220,3 +222,27 @@ model PlatformSettings {
   allowAgents Boolean  @default(true)
   updatedAt   DateTime @updatedAt
 }
+
+model Complaint {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id])
+  
+  subject     String
+  description String
+  status      ComplaintStatus @default(PENDING)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ComplaintStatus {
+  PENDING
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+

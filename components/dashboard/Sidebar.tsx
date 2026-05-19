@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   PlusSquare,
   X,
+  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserRole } from "@/types";
@@ -65,6 +66,11 @@ const sidebarLinks: SidebarLink[] = [
     href: "/admin",
     icon: ShieldCheck,
     roles: ["ADMIN"],
+  },
+  {
+    title: "Support Tickets",
+    href: "/dashboard/complaints",
+    icon: MessageSquare,
   },
   {
     title: "Profile",
