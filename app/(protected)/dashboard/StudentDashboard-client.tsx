@@ -77,7 +77,7 @@ export default function StudentDashboardClient({ user }: { user: any }) {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 space-y-8">
       {/* Dynamic welcome header */}
-      <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-2xl p-6 border border-primary/10 relative overflow-hidden">
+      <div className="bg-linear-to-r from-primary/10 via-primary/5 to-transparent rounded-2xl p-6 border border-primary/10 relative overflow-hidden">
         <div className="absolute right-4 top-4 text-primary/20">
           <Sparkles className="h-16 w-16" />
         </div>

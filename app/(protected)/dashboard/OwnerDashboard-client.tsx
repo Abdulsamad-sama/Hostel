@@ -242,7 +242,7 @@ export default function OwnerDashboardClient() {
                         </CardDescription>
                       </CardHeader>
                     </div>
-                    <CardContent className="px-4 pb-4 pt-0 text-xs text-muted-foreground flex justify-between items-center border-t border-border mt-auto pt-3">
+                    <CardContent className="px-4 pb-4 text-xs text-muted-foreground flex justify-between items-center border-t border-border mt-auto pt-3">
                       <span>Room: <strong className="text-foreground">{property.roomType}</strong></span>
                       <span>Rooms: <strong className="text-foreground">{property.availableRooms}/{property.totalRooms}</strong></span>
                     </CardContent>
