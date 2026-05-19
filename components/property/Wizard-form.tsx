@@ -119,11 +119,11 @@ export default function PropertyWizardForm() {
     });
 
     return (
-        <div className="min-h-screen flex items-center justify-center w-full mx-auto px-5 py-5 overflow-hidden">
+        <div className="flex items-center justify-center w-full h-full mx-auto px-5 py-5 overflow-hidden">
             <FormProvider {...methods}>
                 <form onSubmit={onSubmit}>
-                    <Card className="lg:max-w-4xl md:max-w-3xl max-w-lg w-full mx-auto mt-10">
-                        <CardContent className="p-6 space-y-6">
+                    <Card className="lg:w-4xl md:w-xl w-xs mx-auto mt-10">
+                        <CardContent className="w-full p-6 space-y-6">
                             <div>
                                 <p className="text-sm text-muted-foreground">
                                     Step {step + 1} of {steps.length}

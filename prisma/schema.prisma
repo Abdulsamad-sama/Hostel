@@ -146,10 +146,14 @@ model Booking {
   price       Int
   totalAmount Int
 
+  isInstallment Boolean @default(false)
+
   status        BookingStatus @default(PENDING)
   paymentStatus PaymentStatus @default(PENDING)
 
   expiresAt DateTime?
+
+  installments Installment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,6 +164,22 @@ model Image {
   url        String[]
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
+}
+
+model Installment {
+  id          String   @id @default(uuid())
+  bookingId   String
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  
+  amount      Int
+  dueDate     DateTime
+  status      PaymentStatus @default(PENDING)
+  
+  reference   String? @unique // Paystack reference for this specific installment
+  paidAt      DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum Role {
@@ -189,6 +209,7 @@ enum BookingStatus {
 
 enum PaymentStatus {
   PENDING
+  PARTIAL
   PAID
   FAILED
   REFUNDED

@@ -43,3 +43,11 @@ export const propertySchema = z.object({
     .array(z.string())
     .min(1, { message: "At least one image required" }),
 });
+
+export const createBookingSchema = z.object({
+  propertyId: z.string().uuid("Invalid property ID"),
+  startDate: z.string().datetime({ message: "Invalid date format. Expected ISO 8601" }),
+  quantity: z.number().int().min(1).default(1),
+  duration: z.number().int().min(1).default(1),
+  isInstallment: z.boolean().optional().default(false),
+});

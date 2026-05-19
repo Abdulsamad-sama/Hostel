@@ -101,4 +101,24 @@ export class PropertyController {
       return res.status(500).json({ error: "Failed to fetch properties" });
     }
   }
+
+  static async getOwnerDashboard(req: Request, res: Response) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Only OWNER and AGENT roles can access this
+      if (req.user.role !== "OWNER" && req.user.role !== "AGENT" && req.user.role !== "ADMIN") {
+        return res.status(403).json({ error: "Access denied: Owners/agents only" });
+      }
+
+      const { PropertyService } = await import("../services/property.service");
+      const dashboardData = await PropertyService.getOwnerDashboardData(req.user.id);
+      return res.json(dashboardData);
+    } catch (error) {
+      console.error("[PropertyController] Error getting owner dashboard:", error);
+      return res.status(500).json({ error: "Failed to get owner dashboard data" });
+    }
+  }
 }

@@ -32,9 +32,9 @@ const sidebarLinks: SidebarLink[] = [
   },
   {
     title: "My Bookings",
-    href: "/dashboard/bookings",
+    href: "/student/bookings",
     icon: Calendar,
-    roles: ["OCCUPANT"],
+    roles: ["OCCUPANT", "GUEST"],
   },
   {
     title: "My Properties",

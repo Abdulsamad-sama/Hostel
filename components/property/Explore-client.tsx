@@ -77,7 +77,7 @@ function ExploreContent() {
     if (location && location !== "all") params.append("location", location);
     if (minPrice) params.append("minPrice", minPrice);
     if (maxPrice) params.append("maxPrice", maxPrice);
-    
+
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -103,7 +103,7 @@ function ExploreContent() {
               </Button>
               <Button type="submit">Search</Button>
             </div>
-            
+
             {isFilterOpen && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border mt-2">
                 <div className="space-y-2">
@@ -122,19 +122,19 @@ function ExploreContent() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Min Price (₦)</label>
-                  <Input 
-                    type="number" 
-                    placeholder="e.g. 50000" 
-                    value={minPrice} 
+                  <Input
+                    type="number"
+                    placeholder="e.g. 50000"
+                    value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Max Price (₦)</label>
-                  <Input 
-                    type="number" 
-                    placeholder="e.g. 250000" 
-                    value={maxPrice} 
+                  <Input
+                    type="number"
+                    placeholder="e.g. 250000"
+                    value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
                   />
                 </div>

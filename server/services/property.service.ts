@@ -1,6 +1,7 @@
 import { PropertyRepository, CreatePropertyInput } from "../repositories/property.repository";
 import { UserRepository } from "../repositories/user.repository";
 import type { AuthUser } from "@/types";
+import db from "@/lib/db";
 
 export class PropertyService {
   /**
@@ -79,5 +80,60 @@ export class PropertyService {
     }
 
     return property;
+  }
+
+  static async getOwnerDashboardData(ownerId: string) {
+    const properties = await db.property.findMany({
+      where: { ownerId },
+      include: {
+        images: true,
+        bookings: true,
+      },
+    });
+
+    const propertyIds = properties.map((p) => p.id);
+
+    const bookings = await db.booking.findMany({
+      where: { propertyId: { in: propertyIds } },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+        property: {
+          select: {
+            title: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    // Compute basic analytics
+    const totalRevenue = bookings
+      .filter((b) => b.paymentStatus === "PAID" || b.paymentStatus === "PARTIAL")
+      .reduce((sum, b) => sum + b.totalAmount, 0);
+
+    const activeBookings = bookings.filter((b) => b.status === "CONFIRMED").length;
+
+    const occupiedRooms = bookings
+      .filter((b) => b.status === "CONFIRMED")
+      .reduce((sum, b) => sum + b.quantity, 0);
+
+    const totalRooms = properties.reduce((sum, p) => sum + p.totalRooms, 0);
+
+    return {
+      properties,
+      bookings,
+      analytics: {
+        totalRevenue,
+        activeBookings,
+        occupiedRooms,
+        totalRooms,
+        totalListings: properties.length,
+      },
+    };
   }
 }

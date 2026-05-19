@@ -3,6 +3,8 @@ import { settingsRouter } from "./settings.routes";
 import propertyRouter from "./property.routes";
 
 import adminRouter from "./admin.routes";
+import bookingRouter from "./booking.routes";
+import paymentRouter from "./payment.routes";
 
 export const apiRouter = Router();
 
@@ -10,6 +12,8 @@ export const apiRouter = Router();
 apiRouter.use("/settings", settingsRouter);
 apiRouter.use("/properties", propertyRouter);
 apiRouter.use("/admin", adminRouter);
+apiRouter.use("/bookings", bookingRouter);
+apiRouter.use("/payments", paymentRouter);
 
 apiRouter.get("/", (_req, res) => {
   res.json({ message: "HostelHub API v1" });

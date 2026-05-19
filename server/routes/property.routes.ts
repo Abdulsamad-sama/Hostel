@@ -18,6 +18,13 @@ router.post(
 );
 
 /**
+ * @route   GET /api/properties/owner/dashboard
+ * @desc    Get owner's listings, bookings, and dashboard analytics
+ * @access  Private (OWNER/AGENT)
+ */
+router.get("/owner/dashboard", requireAuth, PropertyController.getOwnerDashboard);
+
+/**
  * @route   GET /api/properties/:id
  * @desc    Get property details
  * @access  Public

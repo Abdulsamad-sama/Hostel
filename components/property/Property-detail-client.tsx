@@ -8,6 +8,17 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
   MapPin,
   BedDouble,
   ShieldCheck,
@@ -18,8 +29,9 @@ import {
   Building,
   ChevronLeft,
   ChevronRight,
-  Loader2,
   AlertTriangle,
+  Loader2,
+  CheckCircle2,
 } from "lucide-react";
 import type {
   Property,
@@ -220,6 +232,77 @@ export default function PropertyDetailClient({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Booking UI State
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingStartDate, setBookingStartDate] = useState<string>(
+    new Date().toISOString().split("T")[0]
+  );
+  const [bookingDuration, setBookingDuration] = useState<number>(1);
+  const [isBookingLoading, setIsBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [bookingSuccess, setBookingSuccess] = useState<{ reference: string; totalAmount: number } | null>(null);
+
+  const [isInstallment, setIsInstallment] = useState(false);
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+
+  const handleBooking = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBookingError(null);
+    setIsBookingLoading(true);
+
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          propertyId,
+          startDate: new Date(bookingStartDate).toISOString(),
+          quantity: 1, // Only supporting 1 room per booking for now
+          duration: bookingDuration,
+          isInstallment,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to initiate booking");
+      }
+
+      const data = await res.json();
+      setBookingSuccess({ reference: data.reference, totalAmount: data.totalAmount });
+    } catch (err: any) {
+      setBookingError(err.message || "Something went wrong.");
+    } finally {
+      setIsBookingLoading(false);
+    }
+  };
+
+  const handlePayment = async () => {
+    if (!bookingSuccess) return;
+    setIsPaymentLoading(true);
+    setBookingError(null);
+
+    try {
+      const res = await fetch("/api/payments/initialize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference: bookingSuccess.reference }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to initialize payment");
+      }
+
+      const data = await res.json();
+      // Redirect to Paystack checkout
+      window.location.href = data.authorizationUrl;
+    } catch (err: any) {
+      setBookingError(err.message || "Payment initialization failed.");
+      setIsPaymentLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchProperty = async (): Promise<void> => {
       try {
@@ -342,13 +425,151 @@ export default function PropertyDetailClient({
             </CardContent>
           </Card>
 
-          {/* Booking CTA — placeholder for Unit 16 */}
+          {/* Booking CTA */}
           <div className="space-y-3">
             {property.availableRooms > 0 ? (
-              <Button size="lg" className="w-full text-base font-semibold" disabled>
-                <Home className="h-5 w-5 mr-2" />
-                Book This Hostel
-              </Button>
+              <Dialog open={isBookingModalOpen} onOpenChange={(open) => {
+                setIsBookingModalOpen(open);
+                if (!open) {
+                  setBookingSuccess(null);
+                  setBookingError(null);
+                }
+              }}>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="w-full text-base font-semibold">
+                    <Home className="h-5 w-5 mr-2" />
+                    Book This Hostel
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Book {property.title}</DialogTitle>
+                    <DialogDescription>
+                      {property.bookingType === "INSTANT_BOOK"
+                        ? "Secure this room instantly."
+                        : "Submit a request to book this room."}
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  {bookingSuccess ? (
+                    <div className="py-6 flex flex-col items-center text-center space-y-4">
+                      {bookingError && (
+                        <div className="w-full p-3 rounded-md bg-destructive/10 text-destructive text-sm flex items-start gap-2 mb-2">
+                          <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                          <span>{bookingError}</span>
+                        </div>
+                      )}
+                      <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+                        <CheckCircle2 className="h-6 w-6 text-green-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground">Booking Initialized!</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Reference: {bookingSuccess.reference}</p>
+                      </div>
+                      <div className="w-full bg-muted p-4 rounded-lg flex justify-between items-center mt-2">
+                        <span className="text-sm font-medium">Total Amount:</span>
+                        <span className="text-lg font-bold text-primary">₦{formatPrice(bookingSuccess.totalAmount)}</span>
+                      </div>
+                      <Button className="w-full mt-4" onClick={handlePayment} disabled={isPaymentLoading}>
+                        {isPaymentLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Connecting to Paystack...
+                          </>
+                        ) : (
+                          "Proceed to Payment"
+                        )}
+                      </Button>
+                      <p className="text-xs text-muted-foreground">You will be redirected securely to Paystack</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleBooking} className="space-y-6 pt-4">
+                      {bookingError && (
+                        <div className="p-3 rounded-md bg-destructive/10 text-destructive text-sm flex items-start gap-2">
+                          <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                          <span>{bookingError}</span>
+                        </div>
+                      )}
+
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="startDate">Move-in Date</Label>
+                          <Input
+                            id="startDate"
+                            type="date"
+                            required
+                            min={new Date().toISOString().split("T")[0]}
+                            value={bookingStartDate}
+                            onChange={(e) => setBookingStartDate(e.target.value)}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="duration">
+                            Duration ({property.priceType === "PER_MONTH" ? "Months" : "Years"})
+                          </Label>
+                          <Input
+                            id="duration"
+                            type="number"
+                            min="1"
+                            max={property.priceType === "PER_MONTH" ? "12" : "5"}
+                            required
+                            value={bookingDuration}
+                            onChange={(e) => setBookingDuration(Number(e.target.value))}
+                          />
+                        </div>
+                      </div>
+
+                      {(property.priceType === "PER_YEAR" || (property.priceType === "PER_MONTH" && bookingDuration >= 6)) && (
+                        <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                          <Checkbox
+                            id="installment"
+                            checked={isInstallment}
+                            onCheckedChange={(checked) => setIsInstallment(checked as boolean)}
+                          />
+                          <div className="space-y-1 leading-none">
+                            <Label htmlFor="installment">
+                              Pay in Installments (40%, 30%, 30%)
+                            </Label>
+                            <p className="text-sm text-muted-foreground">
+                              Split your rent into 3 payments over 6 months. First payment due today.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="rounded-lg border border-border p-4 bg-muted/30">
+                        <div className="flex justify-between items-center mb-2 text-sm">
+                          <span className="text-muted-foreground">Price per {property.priceType === "PER_MONTH" ? "month" : "year"}</span>
+                          <span>₦{formatPrice(property.price)}</span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2 text-sm">
+                          <span className="text-muted-foreground">Quantity</span>
+                          <span>1 Room</span>
+                        </div>
+                        <Separator className="my-2" />
+                        <div className="flex justify-between items-center font-bold">
+                          <span>{isInstallment ? "First Payment (40%)" : "Total Amount"}</span>
+                          <span className="text-primary text-lg">
+                            ₦{formatPrice(isInstallment ? (property.price * bookingDuration * 0.4) : (property.price * bookingDuration))}
+                          </span>
+                        </div>
+                      </div>
+
+                      <Button type="submit" className="w-full" disabled={isBookingLoading}>
+                        {isBookingLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          "Confirm Booking Details"
+                        )}
+                      </Button>
+                    </form>
+                  )}
+                </DialogContent>
+              </Dialog>
             ) : (
               <Button
                 size="lg"
@@ -359,9 +580,6 @@ export default function PropertyDetailClient({
                 No Rooms Available
               </Button>
             )}
-            <p className="text-xs text-center text-muted-foreground">
-              Booking functionality coming soon
-            </p>
           </div>
 
           {/* Owner Info */}
