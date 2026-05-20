@@ -136,4 +136,20 @@ export class PropertyService {
       },
     };
   }
+
+  /**
+   * Delete a property (only owner or admin allowed).
+   */
+  static async deleteProperty(id: string, userId: string, userRole: string) {
+    const property = await PropertyRepository.findById(id);
+    if (!property) {
+      throw new Error("Property not found");
+    }
+
+    if (property.ownerId !== userId && userRole !== "ADMIN") {
+      throw new Error("Not authorized to delete this property");
+    }
+
+    return PropertyRepository.delete(id);
+  }
 }

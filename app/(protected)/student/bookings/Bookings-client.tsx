@@ -323,9 +323,8 @@ export default function BookingsClient() {
                           return (
                             <div
                               key={installment.id}
-                              className={`flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3 text-sm gap-2 transition-colors ${
-                                isPaid ? "bg-green-500/5" : ""
-                              }`}
+                              className={`flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3 text-sm gap-2 transition-colors ${isPaid ? "bg-green-500/5" : ""
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <span className="font-semibold text-muted-foreground">

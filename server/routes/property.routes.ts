@@ -38,4 +38,11 @@ router.get("/:id", PropertyController.getProperty);
  */
 router.get("/", PropertyController.getProperties);
 
+/**
+ * @route   DELETE /api/properties/:id
+ * @desc    Delete a property
+ * @access  Private (Owner/Admin)
+ */
+router.delete("/:id", requireAuth, PropertyController.deleteProperty);
+
 export default router;

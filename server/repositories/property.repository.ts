@@ -123,4 +123,38 @@ export class PropertyRepository {
       data: { isApproved },
     });
   }
+
+  /**
+   * Delete a property by ID and all its related data.
+   */
+  static async delete(id: string) {
+    return db.$transaction(async (prisma) => {
+      // 1. Delete images
+      await prisma.image.deleteMany({ where: { propertyId: id } });
+      
+      // 2. Delete complaints
+      await prisma.complaint.deleteMany({ where: { propertyId: id } });
+
+      // 3. Find associated bookings to delete their installments
+      const bookings = await prisma.booking.findMany({ 
+        where: { propertyId: id }, 
+        select: { id: true } 
+      });
+      const bookingIds = bookings.map(b => b.id);
+      
+      if (bookingIds.length > 0) {
+        await prisma.installment.deleteMany({ 
+          where: { bookingId: { in: bookingIds } } 
+        });
+      }
+
+      // 4. Delete bookings
+      await prisma.booking.deleteMany({ where: { propertyId: id } });
+
+      // 5. Delete the property itself
+      return prisma.property.delete({
+        where: { id },
+      });
+    });
+  }
 }

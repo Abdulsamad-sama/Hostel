@@ -121,4 +121,27 @@ export class PropertyController {
       return res.status(500).json({ error: "Failed to get owner dashboard data" });
     }
   }
+
+  static async deleteProperty(req: Request, res: Response) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      const id = req.params.id as string;
+      const { PropertyService } = await import("../services/property.service");
+      await PropertyService.deleteProperty(id, req.user.id, req.user.role);
+
+      return res.json({ message: "Property deleted successfully" });
+    } catch (error: any) {
+      console.error("[PropertyController] Error deleting property:", error);
+      if (error.message === "Property not found") {
+        return res.status(404).json({ error: error.message });
+      }
+      if (error.message === "Not authorized to delete this property") {
+        return res.status(403).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Failed to delete property" });
+    }
+  }
 }
