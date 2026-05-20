@@ -1,0 +1,119 @@
+
+> my-app@0.1.0 lint
+> eslint
+
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\dashboard\OwnerDashboard-client.tsx
+   9:55  warning  'CheckCircle' is defined but never used   @typescript-eslint/no-unused-vars
+   9:68  warning  'Clock' is defined but never used         @typescript-eslint/no-unused-vars
+  69:21  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\dashboard\StudentDashboard-client.tsx
+   8:19  warning  'Calendar' is defined but never used      @typescript-eslint/no-unused-vars
+   8:69  warning  'ShieldAlert' is defined but never used   @typescript-eslint/no-unused-vars
+  24:66  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\dashboard\complaints\OwnerComplaints-client.tsx
+   5:10  warning  'Button' is defined but never used        @typescript-eslint/no-unused-vars
+   9:45  warning  'HelpCircle' is defined but never used    @typescript-eslint/no-unused-vars
+   9:57  warning  'Clock' is defined but never used         @typescript-eslint/no-unused-vars
+   9:72  warning  'ShieldAlert' is defined but never used   @typescript-eslint/no-unused-vars
+   9:85  warning  'ArrowUpDown' is defined but never used   @typescript-eslint/no-unused-vars
+  26:49  warning  'user' is defined but never used          @typescript-eslint/no-unused-vars
+  26:65  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  69:78  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  71:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\dashboard\complaints\StudentComplaints-client.tsx
+   68:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\student\bookings\Bookings-client.tsx
+   10:10  warning  'Separator' is defined but never used                            @typescript-eslint/no-unused-vars
+   60:21  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   86:19  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  165:24  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  321:33  warning  'isPending' is assigned a value but never used                   @typescript-eslint/no-unused-vars
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\student\bookings\[reference]\verify\Verify-payment-client.tsx
+  33:21  error    Unexpected any. Specify a different type                                                                   @typescript-eslint/no-explicit-any
+  42:6   warning  React Hook useEffect has a missing dependency: 'trxref'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(protected)\student\complaints\Complaints-client.tsx
+   68:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(public)\explore\[id]\page.tsx
+  9:11  warning  'id' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\app\(public)\explore\page.tsx
+  2:10  warning  'requireServerAuth' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\components\admin\User-management.tsx
+    7:10  warning  'Badge' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   18:3   warning  'UserCheck' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   19:3   warning  'ShieldAlert' is defined but never used                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   61:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   93:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  116:19  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  135:9   warning  'getRoleBadgeVariant' is assigned a value but never used                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  267:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  380:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\components\property\Explore-client.tsx
+  71:6  warning  React Hook useEffect has a missing dependency: 'fetchProperties'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\components\property\Property-detail-client.tsx
+  273:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  300:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  327:16  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\controllers\admin.controller.ts
+   60:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   84:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\controllers\booking.controller.ts
+   8:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\controllers\complaint.controller.ts
+   33:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   51:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   73:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  107:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\controllers\payment.controller.ts
+  22:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  48:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\controllers\property.controller.ts
+  78:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\middlewares\error-handler.middleware.ts
+  9:3  warning  '_next' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\repositories\property.repository.ts
+  87:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\services\booking.service.ts
+  23:15  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  29:15  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  35:15  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  43:15  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+  47:9   error  'endDate' is never reassigned. Use 'const' instead  prefer-const
+  63:17  error  Unexpected any. Specify a different type            @typescript-eslint/no-explicit-any
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\services\payment.service.ts
+  32:9   error  'metadata' is never reassigned. Use 'const' instead     prefer-const
+  32:19  error  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  94:9   error  'booking' is never reassigned. Use 'const' instead      prefer-const
+  95:9   error  'installment' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\watchalways\Documents\hamzat\warmup\my-app\server\services\property.service.ts
+  37:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 67 problems (43 errors, 24 warnings)
+  4 errors and 0 warnings potentially fixable with the `--fix` option.
+

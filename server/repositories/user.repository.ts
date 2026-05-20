@@ -42,4 +42,32 @@ export class UserRepository {
   static async findById(userId: string) {
     return db.user.findUnique({ where: { id: userId } });
   }
+
+  /**
+   * Get all users in the system.
+   */
+  static async findMany() {
+    return db.user.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  }
+
+  /**
+   * Update a user's role directly (unrestricted).
+   */
+  static async update(userId: string, data: { role: UserRole }) {
+    return db.user.update({
+      where: { id: userId },
+      data,
+    });
+  }
+
+  /**
+   * Delete a user by ID.
+   */
+  static async delete(userId: string) {
+    return db.user.delete({
+      where: { id: userId },
+    });
+  }
 }

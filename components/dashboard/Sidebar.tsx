@@ -9,7 +9,6 @@ import {
   User,
   Settings,
   Building2,
-  Users,
   ShieldCheck,
   PlusSquare,
   X,
@@ -56,13 +55,7 @@ const sidebarLinks: SidebarLink[] = [
     roles: ["OCCUPANT", "GUEST"],
   },
   {
-    title: "User Management",
-    href: "/admin/users",
-    icon: Users,
-    roles: ["ADMIN"],
-  },
-  {
-    title: "Platform Settings",
+    title: "Admin Dashboard",
     href: "/admin",
     icon: ShieldCheck,
     roles: ["ADMIN"],
